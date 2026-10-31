@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0616" />
+    <meta
+      name="description"
+      content="Shahar & Liza are getting married. Join the wedding quest on 12 June 2027 at Villa Aurora, Caesarea — explore the timeline and RSVP."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Shahar & Liza — A Wedding Quest" />
+    <meta
+      property="og:description"
+      content="Two players. One very good night. 12 June 2027, Villa Aurora, Caesarea. Press start to RSVP."
+    />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" type="image/svg+xml" href="./pixel-heart.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <title>Shahar &amp; Liza — A Wedding Quest</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to the good part</a>
+
+    <header class="site-header" data-site-header>
+      <a class="site-header__brand" href="#landing-hero" aria-label="Shahar and Liza — back to the title screen">
+        <svg class="pixel-heart-icon" viewBox="0 0 7 6" aria-hidden="true" focusable="false">
+          <g fill="currentColor">
+            <rect x="1" y="0" width="2" height="1" />
+            <rect x="4" y="0" width="2" height="1" />
+            <rect x="0" y="1" width="7" height="2" />
+            <rect x="1" y="3" width="5" height="1" />
+            <rect x="2" y="4" width="3" height="1" />
+            <rect x="3" y="5" width="1" height="1" />
+          </g>
+        </svg>
+        <span>S<span class="site-header__ampersand">&amp;</span>L</span>
+      </a>
+
+      <nav class="site-header__navigation" aria-label="Main navigation">
+        <a href="#quest-log">QUEST</a>
+        <a href="#venue">VENUE</a>
+        <a class="site-header__rsvp-link" href="#rsvp">RSVP</a>
+      </nav>
+
+      <button
+        class="sound-toggle"
+        id="sound-toggle-button"
+        type="button"
+        aria-pressed="false"
+        aria-label="Enable 8-bit sound effects and music"
+      >
+        <span class="sound-toggle__label" aria-hidden="true">SFX OFF</span>
+      </button>
+    </header>
+
+    <main id="main-content">
+      <section class="landing-hero" id="landing-hero" aria-labelledby="wedding-title">
+        <div class="landing-hero__canvas-wrap">
+          <canvas
+            id="wedding-landing-canvas"
+            class="landing-hero__canvas"
+            role="img"
+            aria-label="A pixel-art wedding scene at dusk: a chuppah, a glowing dance floor, guests, trees, and string lights."
+          ></canvas>
+          <div class="landing-hero__webgl-fallback" id="webgl-fallback" aria-hidden="true"></div>
+        </div>
+        <div class="landing-hero__atmosphere" aria-hidden="true"></div>
+        <div class="landing-hero__scanlines" aria-hidden="true"></div>
+
+        <div class="landing-hero__content">
+          <div class="landing-hero__crest" aria-hidden="true">
+            <svg class="pixel-heart-icon pixel-heart-icon--hero" viewBox="0 0 7 6" focusable="false">
+              <g fill="currentColor">
+                <rect x="1" y="0" width="2" height="1" />
+                <rect x="4" y="0" width="2" height="1" />
+                <rect x="0" y="1" width="7" height="2" />
+                <rect x="1" y="3" width="5" height="1" />
+                <rect x="2" y="4" width="3" height="1" />
+                <rect x="3" y="5" width="1" height="1" />
+              </g>
+            </svg>
+          </div>
+
+          <p class="landing-hero__kicker">A WEDDING QUEST IN 8 BITS</p>
+
+          <h1 class="wedding-title" id="wedding-title" aria-label="Shahar and Liza">
+            <span class="wedding-title__name" aria-hidden="true">SHAHAR</span>
+            <span class="wedding-title__ampersand" aria-hidden="true">&amp;</span>
+            <span class="wedding-title__name" aria-hidden="true">LIZA</span>
+          </h1>
+
+          <p class="landing-hero__date">
+            <span>SATURDAY</span>
+            <span class="landing-hero__date-dot" aria-hidden="true">◆</span>
+            <time datetime="2027-06-12">12 · 06 · 2027</time>
+          </p>
+          <p class="landing-hero__venue">VILLA AURORA · CAESAREA</p>
+
+          <div class="landing-hero__actions">
+            <button class="pixel-button pixel-button--primary" id="start-quest-button" type="button">
+              PRESS START
+            </button>
+            <a class="pixel-button pixel-button--ghost" href="#rsvp">RSVP NOW</a>
+          </div>
+
+          <p class="landing-hero__hint">DRAG THE SCENE · TAP FOR CONFETTI</p>
+        </div>
+
+        <a class="landing-hero__scroll-cue" href="#wedding-countdown">
+          <span>SCROLL TO CONTINUE</span>
+          <span class="landing-hero__scroll-arrow" aria-hidden="true">▼</span>
+        </a>
+
+        <div class="landing-hero__ticker" aria-hidden="true">
+          <div class="landing-hero__ticker-track">
+            <div class="landing-hero__ticker-group">
+              <span>★ 12.06.2027</span><span>★ VILLA AURORA</span><span>★ RSVP BY 12.05.2027</span
+              ><span>★ DRESS CODE: GARDEN FESTIVE</span><span>★ TWO PLAYERS, ONE LOVE STORY</span>
+            </div>
+            <div class="landing-hero__ticker-group">
+              <span>★ 12.06.2027</span><span>★ VILLA AURORA</span><span>★ RSVP BY 12.05.2027</span
+              ><span>★ DRESS CODE: GARDEN FESTIVE</span><span>★ TWO PLAYERS, ONE LOVE STORY</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="boot-screen" id="boot-screen" aria-hidden="true">
+          <p class="boot-screen__title">LOADING LOVE...</p>
+          <div class="boot-screen__track"><span class="boot-screen__bar"></span></div>
+          <p class="boot-screen__hint">INSERT COIN</p>
+        </div>
+      </section>
+
+      <section class="countdown-ribbon" aria-labelledby="countdown-heading">
+        <div class="countdown-ribbon__inner">
+          <div class="countdown-ribbon__heading">
+            <p class="countdown-ribbon__eyebrow">SAVE FILE</p>
+            <h2 id="countdown-heading">TIME UNTIL “I DO”</h2>
+          </div>
+          <div class="countdown-grid" id="wedding-countdown" role="timer" aria-live="off"></div>
+        </div>
+      </section>
+
+      <section class="content-section content-section--quest" id="quest-log" aria-labelledby="quest-log-heading">
+        <div class="content-section__inner">
+          <header class="section-heading">
+            <p class="section-heading__eyebrow">STAGE SELECT</p>
+            <h2 id="quest-log-heading">THE QUEST LOG</h2>
+            <p class="section-heading__intro">
+              Three checkpoints. One long, loud, delicious night. Scroll the log or use the controls to
+              preview each stage of the celebration.
+            </p>
+          </header>
+
+          <div class="quest-hud pixel-frame">
+            <div class="quest-hud__status">
+              <span class="quest-hud__label">CURRENT STAGE</span>
+              <span class="quest-hud__stage" id="quest-stage-label">01 / 03</span>
+            </div>
+            <div
+              class="quest-hud__progress-track"
+              id="quest-progress-bar"
+              role="progressbar"
+              aria-label="Timeline progress"
+              aria-valuemin="1"
+              aria-valuemax="3"
+              aria-valuenow="1"
+            >
+              <span class="quest-hud__progress-fill" id="quest-progress-fill"></span>
+            </div>
+            <div class="quest-hud__controls">
+              <button
+                class="pixel-button pixel-button--tiny"
+                id="quest-previous-button"
+                type="button"
+                aria-label="Go to the previous timeline stage"
+              >
+                &lt; PREV
+              </button>
+              <button
+                class="pixel-button pixel-button--tiny"
+                id="quest-next-button"
+                type="button"
+                aria-label="Go to the next timeline stage"
+              >
+                NEXT &gt;
+              </button>
+            </div>
+          </div>
+
+          <div class="wedding-timeline" id="wedding-timeline-root"></div>
+        </div>
+      </section>
+
+      <section class="content-section content-section--venue" id="venue" aria-labelledby="venue-heading">
+        <div class="content-section__inner">
+          <header class="section-heading">
+            <p class="section-heading__eyebrow">WORLD MAP</p>
+            <h2 id="venue-heading">THE VENUE</h2>
+            <p class="section-heading__intro">
+              A garden, an old stone house, and a sunset that has been booked for 19:12 sharp. Here is
+              everything you need to find your way to the party.
+            </p>
+          </header>
+
+          <div id="venue-information-root"></div>
+
+          <div class="venue-faq-block">
+            <div class="venue-faq-block__heading">
+              <p class="section-heading__eyebrow">SIDE QUESTS</p>
+              <h3>FREQUENTLY ASKED QUESTS</h3>
+            </div>
+            <div class="venue-faq-list" id="venue-faq-root"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section content-section--rsvp" id="rsvp" aria-labelledby="rsvp-heading">
+        <div class="content-section__inner">
+          <header class="section-heading section-heading--centered">
+            <p class="section-heading__eyebrow">FINAL BOSS</p>
+            <h2 id="rsvp-heading">RESERVE YOUR SPOT</h2>
+            <p class="section-heading__intro">
+              Tell us if you can make it, what you can eat, and which song will get you on the dance
+              floor. Your answer is saved on this device and can be updated any time.
+            </p>
+          </header>
+
+          <div class="rsvp-layout">
+            <aside class="rsvp-brief" aria-label="RSVP details">
+              <div class="rsvp-brief__panel pixel-frame">
+                <p class="rsvp-brief__label">RESPOND BY</p>
+                <p class="rsvp-brief__deadline">12 · 05 · 2027</p>
+
+                <div class="rsvp-brief__rule" aria-hidden="true"></div>
+
+                <ul class="rsvp-brief__facts">
+                  <li>
+                    <span class="rsvp-brief__fact-label">PARTY SIZE</span>
+                    <span>Up to 4 guests, per your invite.</span>
+                  </li>
+                  <li>
+                    <span class="rsvp-brief__fact-label">DIETARY NEEDS</span>
+                    <span>Veggie, vegan, gluten-free, allergies — the kitchen is listening.</span>
+                  </li>
+                  <li>
+                    <span class="rsvp-brief__fact-label">QUESTIONS?</span>
+                    <a href="mailto:hello@shaharandliza.example">hello@shaharandliza.example</a>
+                  </li>
+                </ul>
+
+                <p class="rsvp-brief__note">NO ACCOUNTS. NO APPS. JUST PIXELS.</p>
+              </div>
+            </aside>
+
+            <div class="rsvp-form-mount" id="guest-dietary-form-root"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p class="site-footer__logo">
+        SHAHAR
+        <svg class="pixel-heart-icon" viewBox="0 0 7 6" aria-hidden="true" focusable="false">
+          <g fill="currentColor">
+            <rect x="1" y="0" width="2" height="1" />
+            <rect x="4" y="0" width="2" height="1" />
+            <rect x="0" y="1" width="7" height="2" />
+            <rect x="1" y="3" width="5" height="1" />
+            <rect x="2" y="4" width="3" height="1" />
+            <rect x="3" y="5" width="1" height="1" />
+          </g>
+        </svg>
+        LIZA
+      </p>
+      <p class="site-footer__meta">12.06.2027 · VILLA AURORA · CAESAREA</p>
+      <p class="site-footer__credits">MADE WITH LOVE, THREE.JS &amp; TOO MANY PIXELS</p>
+      <a class="site-footer__back-link" href="#landing-hero">↑ BACK TO TITLE</a>
+    </footer>
+
+    <dialog
+      class="pixel-dialog"
+      id="rsvp-confirmation-dialog"
+      aria-labelledby="rsvp-confirmation-title"
+    >
+      <div class="pixel-dialog__content" id="rsvp-confirmation-content"></div>
+    </dialog>
+
+    <noscript>
+      <div class="noscript-banner">
+        JavaScript is off, so the pixel magic and the RSVP form cannot load. Please email
+        <a href="mailto:hello@shaharandliza.example">hello@shaharandliza.example</a> to reserve your spot.
+      </div>
+    </noscript>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

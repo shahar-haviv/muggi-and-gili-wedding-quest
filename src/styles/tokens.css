@@ -1,0 +1,51 @@
+:root {
+  /* Core palette — sampled from a dusky 16-bit wedding scene. */
+  --color-night-900: #070312;
+  --color-night-800: #0a0616;
+  --color-night-700: #100a22;
+  --color-night-600: #160e2e;
+  --color-panel: #1b1136;
+  --color-panel-raised: #24164a;
+  --color-ink: #08040f;
+
+  --color-cream: #fff2d2;
+  --color-cream-dim: #cbb99e;
+  --color-rose: #f2799b;
+  --color-rose-bright: #ffa3bd;
+  --color-rose-deep: #b93d68;
+  --color-gold: #ffc857;
+  --color-gold-deep: #a86d1c;
+  --color-mint: #71e0c0;
+  --color-lilac: #b89cff;
+  --color-purple: #5b3b91;
+  --color-border: #4b2f78;
+  --color-danger: #ff7196;
+  --color-success: #7cf0bd;
+
+  /* Typography */
+  --font-display: 'Press Start 2P', 'Courier New', monospace;
+  --font-body: 'Silkscreen', 'Lucida Console', monospace;
+
+  /* Layout */
+  --content-max-width: 1120px;
+  --header-height: 64px;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* Pixel shadows */
+  --shadow-pixel-sm: 3px 3px 0 rgb(0 0 0 / 45%);
+  --shadow-pixel-md: 6px 6px 0 rgb(0 0 0 / 45%);
+  --shadow-pixel-lg: 9px 9px 0 rgb(0 0 0 / 38%);
+
+  /* Motion */
+  --transition-snap: 110ms steps(2, end);
+}
