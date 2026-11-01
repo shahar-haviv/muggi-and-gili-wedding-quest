@@ -1,7 +1,9 @@
 import './styles/index.css';
 import { PixelSoundEngine } from './audio/PixelSoundEngine.js';
 import { WeddingCountdown } from './components/WeddingCountdown.js';
+import { WeddingTimeline } from './components/WeddingTimeline.js';
 import { WEDDING_DETAILS } from './data/weddingDetails.js';
+import { WEDDING_TIMELINE_STAGES } from './data/weddingTimeline.js';
 import { WeddingLandingScene } from './three/WeddingLandingScene.js';
 
 /**
@@ -18,6 +20,12 @@ const startQuestButton = document.querySelector('#start-quest-button');
 const soundToggleButton = document.querySelector('#sound-toggle-button');
 const soundToggleLabel = document.querySelector('.sound-toggle__label');
 const countdownRoot = document.querySelector('#wedding-countdown');
+const timelineRoot = document.querySelector('#wedding-timeline-root');
+const questProgressBar = document.querySelector('#quest-progress-bar');
+const questProgressFill = document.querySelector('#quest-progress-fill');
+const questStageLabel = document.querySelector('#quest-stage-label');
+const questPreviousButton = document.querySelector('#quest-previous-button');
+const questNextButton = document.querySelector('#quest-next-button');
 const reducedMotionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 let weddingLandingScene = null;
@@ -133,5 +141,20 @@ new WeddingCountdown({
   root: countdownRoot,
   targetDateIso: WEDDING_DETAILS.weddingDateIso,
 });
+
+const weddingTimeline = new WeddingTimeline({
+  root: timelineRoot,
+  stages: WEDDING_TIMELINE_STAGES,
+  progressBar: questProgressBar,
+  progressFill: questProgressFill,
+  stageLabel: questStageLabel,
+  previousButton: questPreviousButton,
+  nextButton: questNextButton,
+  onStageChange: () => pixelSoundEngine.playStageAdvance(),
+});
+
+if (import.meta.env.DEV) {
+  window.__weddingTimeline = weddingTimeline;
+}
 
 initializeWeddingLandingScene();
