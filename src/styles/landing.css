@@ -159,19 +159,31 @@
     0 6px 0 rgb(0 0 0 / 42%);
 }
 
+.landing-hero__details {
+  padding: 10px clamp(14px, 4vw, 26px);
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgb(7 3 18 / 62%) 14%,
+    rgb(7 3 18 / 62%) 86%,
+    transparent 100%
+  );
+  animation-delay: 240ms;
+}
+
 .landing-hero__date {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
   gap: 9px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
   color: var(--color-gold);
   font-family: var(--font-display);
   font-size: clamp(0.5rem, 1.9vw, 0.72rem);
   letter-spacing: 0.06em;
   line-height: 1.7;
-  animation-delay: 240ms;
+  text-shadow: 2px 2px 0 rgb(0 0 0 / 85%);
 }
 
 .landing-hero__date-dot {
@@ -186,8 +198,7 @@
   font-size: clamp(0.5rem, 1.8vw, 0.66rem);
   letter-spacing: 0.09em;
   line-height: 1.7;
-  text-shadow: 2px 2px 0 rgb(0 0 0 / 60%);
-  animation-delay: 300ms;
+  text-shadow: 2px 2px 0 rgb(0 0 0 / 90%);
 }
 
 .landing-hero__actions {
