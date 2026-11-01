@@ -2,8 +2,11 @@ import './styles/index.css';
 import { PixelSoundEngine } from './audio/PixelSoundEngine.js';
 import { WeddingCountdown } from './components/WeddingCountdown.js';
 import { WeddingTimeline } from './components/WeddingTimeline.js';
+import { VenueFaqAccordion } from './components/VenueFaqAccordion.js';
+import { VenueInformationPanel } from './components/VenueInformationPanel.js';
 import { WEDDING_DETAILS } from './data/weddingDetails.js';
 import { WEDDING_TIMELINE_STAGES } from './data/weddingTimeline.js';
+import { VENUE_FAQ_ITEMS } from './data/venueFaq.js';
 import { WeddingLandingScene } from './three/WeddingLandingScene.js';
 
 /**
@@ -26,6 +29,8 @@ const questProgressFill = document.querySelector('#quest-progress-fill');
 const questStageLabel = document.querySelector('#quest-stage-label');
 const questPreviousButton = document.querySelector('#quest-previous-button');
 const questNextButton = document.querySelector('#quest-next-button');
+const venueInformationRoot = document.querySelector('#venue-information-root');
+const venueFaqRoot = document.querySelector('#venue-faq-root');
 const reducedMotionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 let weddingLandingScene = null;
@@ -156,5 +161,15 @@ const weddingTimeline = new WeddingTimeline({
 if (import.meta.env.DEV) {
   window.__weddingTimeline = weddingTimeline;
 }
+
+new VenueInformationPanel({
+  root: venueInformationRoot,
+  details: WEDDING_DETAILS,
+});
+
+new VenueFaqAccordion({
+  root: venueFaqRoot,
+  items: VENUE_FAQ_ITEMS,
+});
 
 initializeWeddingLandingScene();

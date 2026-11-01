@@ -1,0 +1,277 @@
+/* --------------------------------------------------
+   Venue map and practical details
+-------------------------------------------------- */
+.venue-layout {
+  display: grid;
+  gap: clamp(26px, 4vw, 44px);
+  align-items: center;
+}
+
+.venue-map {
+  margin: 0;
+  padding: 14px;
+  border-color: var(--color-border);
+  background: linear-gradient(180deg, #1b1136, #100923);
+}
+
+.venue-map__header,
+.venue-map__caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--color-cream-dim);
+  font-family: var(--font-display);
+  font-size: clamp(0.38rem, 1.4vw, 0.46rem);
+  letter-spacing: 0.06em;
+  line-height: 1.6;
+}
+
+.venue-map__header {
+  margin-bottom: 10px;
+  color: var(--color-mint);
+}
+
+.venue-map__canvas {
+  overflow: hidden;
+  border: 2px solid var(--color-border);
+  background: #07101f;
+  box-shadow: inset 0 0 0 3px rgb(0 0 0 / 40%);
+  aspect-ratio: 4 / 3;
+}
+
+.venue-map__svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.venue-map__label,
+.venue-map__north {
+  fill: var(--color-cream-dim);
+  font-family: var(--font-display);
+  font-size: 3.1px;
+  letter-spacing: 0.04em;
+}
+
+.venue-map__parking-label {
+  fill: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 6px;
+}
+
+.venue-map__north {
+  fill: var(--color-gold);
+  font-size: 4px;
+}
+
+.venue-map__pin {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: venue-pin-bob 2.4s steps(2, end) infinite;
+}
+
+@keyframes venue-pin-bob {
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.venue-map__caption {
+  margin-top: 10px;
+  color: var(--color-cream-dim);
+  font-size: 0.38rem;
+  opacity: 0.8;
+}
+
+.venue-details {
+  padding-block: 4px;
+}
+
+.venue-details__eyebrow {
+  margin-bottom: 12px;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: clamp(0.42rem, 1.5vw, 0.5rem);
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+}
+
+.venue-details__title {
+  margin-bottom: 10px;
+  color: var(--color-cream);
+  font-size: clamp(1.55rem, 4.4vw, 2.3rem);
+  text-shadow:
+    3px 3px 0 var(--color-rose-deep),
+    6px 6px 0 rgb(0 0 0 / 38%);
+}
+
+.venue-details__address {
+  margin-bottom: 22px;
+  color: var(--color-cream-dim);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.venue-facts {
+  margin: 0 0 24px;
+  border-top: 2px solid var(--color-border);
+}
+
+.venue-fact {
+  display: grid;
+  gap: 4px;
+  padding: 12px 0;
+  border-bottom: 2px dashed rgb(75 47 120 / 60%);
+}
+
+.venue-fact dt {
+  color: var(--color-mint);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+}
+
+.venue-fact dd {
+  margin: 0;
+  color: var(--color-cream-dim);
+  font-size: 0.9rem;
+  line-height: 1.75;
+}
+
+.venue-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.venue-actions .pixel-button {
+  flex: 1 1 180px;
+}
+
+@media (min-width: 880px) {
+  .venue-layout {
+    grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
+  }
+
+  .venue-fact {
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 16px;
+    align-items: start;
+  }
+}
+
+/* --------------------------------------------------
+   FAQ accordion
+-------------------------------------------------- */
+.venue-faq-block {
+  margin-top: clamp(50px, 8vw, 86px);
+}
+
+.venue-faq-block__heading {
+  margin-bottom: 24px;
+}
+
+.venue-faq-block__heading h3 {
+  margin-bottom: 0;
+  color: var(--color-cream);
+  font-size: clamp(1.15rem, 3vw, 1.55rem);
+  text-shadow: 2px 2px 0 var(--color-rose-deep);
+}
+
+.venue-faq-list {
+  display: grid;
+  gap: 10px;
+  width: min(100%, 900px);
+}
+
+.venue-faq-item {
+  border: 2px solid var(--color-border);
+  background: rgb(11 6 24 / 74%);
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 30%);
+  transition:
+    border-color var(--transition-snap),
+    background-color var(--transition-snap);
+}
+
+.venue-faq-item.is-open {
+  border-color: var(--color-mint);
+  background: rgb(14 20 34 / 92%);
+}
+
+.venue-faq-item__heading {
+  margin: 0;
+}
+
+.venue-faq-item__question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  padding: 15px 16px;
+  border: 0;
+  background: transparent;
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: clamp(0.46rem, 1.7vw, 0.58rem);
+  letter-spacing: 0.02em;
+  line-height: 1.75;
+  text-align: left;
+}
+
+.venue-faq-item__question:hover {
+  color: var(--color-gold);
+}
+
+.venue-faq-item.is-open .venue-faq-item__question {
+  color: var(--color-mint);
+}
+
+.venue-faq-item__icon {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex: none;
+  place-items: center;
+  border: 2px solid var(--color-border);
+  background: var(--color-night-800);
+  box-shadow: 2px 2px 0 rgb(0 0 0 / 40%);
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  line-height: 1;
+}
+
+.venue-faq-item.is-open .venue-faq-item__icon {
+  border-color: var(--color-mint);
+  background: var(--color-mint);
+  color: var(--color-ink);
+}
+
+.venue-faq-item__answer {
+  padding: 14px 16px 18px;
+  border-top: 2px dashed rgb(75 47 120 / 70%);
+  color: var(--color-cream-dim);
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.venue-faq-item__answer p {
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  .venue-map {
+    padding: 10px;
+  }
+
+  .venue-map__caption {
+    font-size: 0.32rem;
+  }
+
+  .venue-actions .pixel-button {
+    flex-basis: 100%;
+  }
+}
