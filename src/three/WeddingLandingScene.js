@@ -247,14 +247,17 @@ export class WeddingLandingScene {
     this.pointerHasMoved = false;
   }
 
-  celebrate() {
+  celebrate({ emitSound = true } = {}) {
     const now = performance.now();
     if (now - this.lastCelebrationTimestamp < 180) return;
     this.lastCelebrationTimestamp = now;
 
     this.celebrationEnergy = 1;
     this.diorama.triggerCelebration();
-    this.onCelebration();
+
+    if (emitSound) {
+      this.onCelebration();
+    }
   }
 
   handleVisibilityChange() {
