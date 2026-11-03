@@ -1,0 +1,627 @@
+/* --------------------------------------------------
+   RSVP layout and briefing panel
+-------------------------------------------------- */
+.rsvp-layout {
+  display: grid;
+  gap: clamp(24px, 4vw, 40px);
+  align-items: start;
+}
+
+.rsvp-brief__panel {
+  padding: clamp(18px, 3vw, 26px);
+  border-color: var(--color-gold-deep);
+}
+
+.rsvp-brief__label {
+  margin-bottom: 8px;
+  color: var(--color-mint);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+}
+
+.rsvp-brief__deadline {
+  margin-bottom: 18px;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: clamp(0.95rem, 3.5vw, 1.3rem);
+  line-height: 1.5;
+  text-shadow: 3px 3px 0 var(--color-rose-deep);
+}
+
+.rsvp-brief__rule {
+  height: 3px;
+  margin-bottom: 18px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--color-border) 0 8px,
+    transparent 8px 14px
+  );
+}
+
+.rsvp-brief__facts {
+  display: grid;
+  gap: 14px;
+}
+
+.rsvp-brief__facts li {
+  display: grid;
+  gap: 4px;
+  padding-bottom: 14px;
+  border-bottom: 2px dashed rgb(75 47 120 / 60%);
+  color: var(--color-cream-dim);
+  font-size: 0.82rem;
+  line-height: 1.7;
+}
+
+.rsvp-brief__fact-label {
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+}
+
+.rsvp-brief__facts a {
+  overflow-wrap: anywhere;
+}
+
+.rsvp-brief__note {
+  margin: 18px 0 0;
+  color: var(--color-rose-bright);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.04em;
+  line-height: 1.8;
+}
+
+@media (min-width: 900px) {
+  .rsvp-layout {
+    grid-template-columns: minmax(240px, 0.68fr) minmax(0, 1.32fr);
+    gap: 36px;
+  }
+
+  .rsvp-brief {
+    position: sticky;
+    top: calc(var(--header-height) + 20px);
+  }
+}
+
+/* --------------------------------------------------
+   Guest form
+-------------------------------------------------- */
+.guest-dietary-form {
+  padding: clamp(20px, 4vw, 34px);
+  border-color: var(--color-border);
+}
+
+.guest-dietary-form [hidden] {
+  display: none !important;
+}
+
+.guest-dietary-form__header {
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 3px solid var(--color-border);
+}
+
+.guest-dietary-form__eyebrow {
+  margin-bottom: 10px;
+  color: var(--color-mint);
+  font-family: var(--font-display);
+  font-size: 0.44rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+}
+
+.guest-dietary-form__title {
+  margin-bottom: 12px;
+  color: var(--color-cream);
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  text-shadow: 3px 3px 0 var(--color-rose-deep);
+}
+
+.guest-dietary-form__intro {
+  margin-bottom: 0;
+  color: var(--color-cream-dim);
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+.guest-dietary-form__restore-note {
+  margin: 14px 0 0;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+}
+
+.form-section {
+  min-width: 0;
+  margin: 0 0 26px;
+  padding: 0;
+  border: 0;
+}
+
+.form-section legend {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 0;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 0.46rem;
+  letter-spacing: 0.06em;
+  line-height: 1.7;
+}
+
+.form-section__hint {
+  margin: -4px 0 14px;
+  color: var(--color-cream-dim);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+.guest-dietary-form__row {
+  display: grid;
+  gap: 16px;
+}
+
+.form-field {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+  margin-bottom: 16px;
+}
+
+.form-field:last-child {
+  margin-bottom: 0;
+}
+
+.form-field__label {
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: 0.07em;
+  line-height: 1.7;
+}
+
+.form-field__label small {
+  color: var(--color-cream-dim);
+  font-size: 0.32rem;
+  letter-spacing: 0.03em;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--color-border);
+  border-radius: 0;
+  background: #0b0618;
+  box-shadow: inset 2px 2px 0 rgb(0 0 0 / 45%);
+  color: var(--color-cream);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  transition:
+    border-color var(--transition-snap),
+    box-shadow var(--transition-snap);
+}
+
+.form-field textarea {
+  min-height: 76px;
+  resize: vertical;
+}
+
+.form-field input::placeholder,
+.form-field textarea::placeholder {
+  color: rgb(203 185 158 / 55%);
+}
+
+.form-field input:focus,
+.form-field select:focus,
+.form-field textarea:focus {
+  border-color: var(--color-mint);
+  box-shadow:
+    inset 2px 2px 0 rgb(0 0 0 / 45%),
+    0 0 0 3px rgb(113 224 192 / 16%);
+  outline: none;
+}
+
+.form-field input:user-invalid,
+.form-field select:user-invalid,
+.form-field textarea:user-invalid {
+  border-color: var(--color-danger);
+}
+
+.form-field select {
+  appearance: none;
+  background-image: linear-gradient(45deg, transparent 50%, var(--color-gold) 50%),
+    linear-gradient(135deg, var(--color-gold) 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 50%,
+    calc(100% - 12px) 50%;
+  background-repeat: no-repeat;
+  background-size: 6px 6px;
+  padding-right: 36px;
+}
+
+@media (min-width: 700px) {
+  .guest-dietary-form__row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+}
+
+/* --------------------------------------------------
+   Attendance choice cards
+-------------------------------------------------- */
+.attendance-options {
+  display: grid;
+  gap: 12px;
+}
+
+.attendance-option {
+  position: relative;
+  display: block;
+  cursor: pointer;
+}
+
+.attendance-option__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.attendance-option__body {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  min-height: 100%;
+  padding: 15px;
+  pointer-events: none;
+  border: 2px solid var(--color-border);
+  background: rgb(11 6 24 / 62%);
+  box-shadow: 4px 4px 0 rgb(0 0 0 / 28%);
+  transition:
+    border-color var(--transition-snap),
+    background-color var(--transition-snap),
+    box-shadow var(--transition-snap);
+}
+
+.attendance-option__marker {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  margin-top: 2px;
+  border: 2px solid var(--color-border);
+  background: var(--color-night-800);
+  box-shadow: inset 2px 2px 0 rgb(0 0 0 / 55%);
+}
+
+.attendance-option__content {
+  display: grid;
+  gap: 4px;
+}
+
+.attendance-option__title {
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: 0.46rem;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+}
+
+.attendance-option__copy {
+  color: var(--color-cream-dim);
+  font-size: 0.78rem;
+  line-height: 1.7;
+}
+
+.attendance-option__input:checked + .attendance-option__body {
+  border-color: var(--color-mint);
+  background: rgb(24 58 50 / 72%);
+  box-shadow:
+    4px 4px 0 rgb(0 0 0 / 32%),
+    inset 0 0 0 2px rgb(113 224 192 / 14%);
+}
+
+.attendance-option__input:checked + .attendance-option__body .attendance-option__marker {
+  border-color: var(--color-mint);
+  background: var(--color-mint);
+  box-shadow: inset 0 0 0 3px var(--color-night-800);
+}
+
+.attendance-option__input:checked + .attendance-option__body .attendance-option__title {
+  color: var(--color-mint);
+}
+
+.attendance-option__input:focus-visible + .attendance-option__body {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+/* --------------------------------------------------
+   Dietary checkbox cards
+-------------------------------------------------- */
+.dietary-options {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.dietary-option {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px;
+  border: 2px solid var(--color-border);
+  background: rgb(11 6 24 / 52%);
+  cursor: pointer;
+  transition:
+    border-color var(--transition-snap),
+    background-color var(--transition-snap);
+}
+
+.dietary-option:hover {
+  border-color: var(--color-rose);
+}
+
+.dietary-option:has(.dietary-option__input:checked) {
+  border-color: var(--color-mint);
+  background: rgb(24 58 50 / 58%);
+}
+
+.dietary-option__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.dietary-option__box {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  flex: none;
+  margin-top: 2px;
+  border: 2px solid var(--color-border);
+  background: var(--color-night-800);
+  box-shadow: inset 2px 2px 0 rgb(0 0 0 / 55%);
+  pointer-events: none;
+}
+
+.dietary-option__input:checked + .dietary-option__box {
+  border-color: var(--color-mint);
+  background: var(--color-mint);
+}
+
+.dietary-option__input:checked + .dietary-option__box::after {
+  position: absolute;
+  top: 2px;
+  left: 6px;
+  width: 5px;
+  height: 10px;
+  border-right: 3px solid var(--color-ink);
+  border-bottom: 3px solid var(--color-ink);
+  content: '';
+  transform: rotate(45deg);
+}
+
+.dietary-option__input:focus-visible + .dietary-option__box {
+  outline: 3px solid var(--color-gold);
+  outline-offset: 3px;
+}
+
+.dietary-option__text {
+  display: grid;
+  gap: 2px;
+  pointer-events: none;
+}
+
+.dietary-option__label {
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+}
+
+.dietary-option__description {
+  color: var(--color-cream-dim);
+  font-size: 0.72rem;
+  line-height: 1.6;
+}
+
+.dietary-option__input:checked ~ .dietary-option__text .dietary-option__label {
+  color: var(--color-mint);
+}
+
+@media (min-width: 620px) {
+  .attendance-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .dietary-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* --------------------------------------------------
+   Form actions, status, and dialog
+-------------------------------------------------- */
+.guest-dietary-form__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding-top: 6px;
+}
+
+.guest-dietary-form__save-note {
+  margin: 0;
+  color: var(--color-cream-dim);
+  font-family: var(--font-display);
+  font-size: 0.38rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.guest-dietary-form__actions .pixel-button {
+  width: 100%;
+}
+
+.guest-dietary-form__status {
+  min-height: 1.8em;
+  margin: 14px 0 0;
+  color: var(--color-cream-dim);
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: 0.03em;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.guest-dietary-form__status[data-tone='success'] {
+  color: var(--color-success);
+}
+
+.guest-dietary-form__status[data-tone='error'] {
+  color: var(--color-danger);
+}
+
+.guest-dietary-form.is-saving {
+  cursor: progress;
+}
+
+@media (min-width: 640px) {
+  .guest-dietary-form__actions {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .guest-dietary-form__save-note {
+    text-align: left;
+  }
+
+  .guest-dietary-form__actions .pixel-button {
+    width: auto;
+    min-width: 220px;
+  }
+}
+
+.pixel-dialog {
+  width: min(calc(100% - 32px), 560px);
+  max-height: calc(100dvh - 32px);
+  padding: 0;
+  overflow: auto;
+  border: 3px solid var(--color-cream);
+  border-radius: 0;
+  background: linear-gradient(180deg, var(--color-panel-raised), var(--color-panel));
+  box-shadow:
+    inset 0 0 0 3px var(--color-ink),
+    10px 10px 0 rgb(0 0 0 / 55%);
+  color: var(--color-cream);
+}
+
+.pixel-dialog::backdrop {
+  background: rgb(4 2 10 / 84%);
+  backdrop-filter: blur(2px);
+}
+
+.pixel-dialog__content {
+  padding: clamp(22px, 5vw, 34px);
+}
+
+.pixel-dialog__eyebrow {
+  margin-bottom: 10px;
+  color: var(--color-mint);
+  font-family: var(--font-display);
+  font-size: 0.44rem;
+  letter-spacing: 0.1em;
+  line-height: 1.6;
+}
+
+.pixel-dialog__title {
+  margin-bottom: 14px;
+  color: var(--color-cream);
+  font-size: clamp(1.1rem, 4vw, 1.55rem);
+  line-height: 1.6;
+  text-shadow: 3px 3px 0 var(--color-rose-deep);
+}
+
+.pixel-dialog__copy {
+  margin-bottom: 18px;
+  color: var(--color-cream-dim);
+  font-size: 0.88rem;
+  line-height: 1.8;
+}
+
+.pixel-dialog__summary {
+  display: grid;
+  gap: 8px;
+  margin: 0 0 18px;
+  padding: 12px 14px;
+  border: 2px solid var(--color-border);
+  background: rgb(8 4 15 / 50%);
+}
+
+.pixel-dialog__summary-row {
+  display: grid;
+  grid-template-columns: minmax(80px, 0.4fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.pixel-dialog__summary-row dt {
+  color: var(--color-mint);
+  font-family: var(--font-display);
+  font-size: 0.36rem;
+  letter-spacing: 0.05em;
+  line-height: 1.7;
+}
+
+.pixel-dialog__summary-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-cream);
+  font-size: 0.8rem;
+  line-height: 1.7;
+}
+
+.pixel-dialog__sync {
+  margin-bottom: 20px;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 0.38rem;
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+}
+
+.pixel-dialog__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pixel-dialog__actions .pixel-button {
+  width: 100%;
+}
+
+@media (min-width: 560px) {
+  .pixel-dialog__actions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+
+  .pixel-dialog__actions .pixel-button {
+    width: auto;
+  }
+}

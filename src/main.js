@@ -1,5 +1,6 @@
 import './styles/index.css';
 import { PixelSoundEngine } from './audio/PixelSoundEngine.js';
+import { GuestDietaryForm } from './components/GuestDietaryForm.js';
 import { WeddingCountdown } from './components/WeddingCountdown.js';
 import { WeddingTimeline } from './components/WeddingTimeline.js';
 import { VenueFaqAccordion } from './components/VenueFaqAccordion.js';
@@ -7,6 +8,7 @@ import { VenueInformationPanel } from './components/VenueInformationPanel.js';
 import { WEDDING_DETAILS } from './data/weddingDetails.js';
 import { WEDDING_TIMELINE_STAGES } from './data/weddingTimeline.js';
 import { VENUE_FAQ_ITEMS } from './data/venueFaq.js';
+import { GuestRsvpStore } from './services/GuestRsvpStore.js';
 import { WeddingLandingScene } from './three/WeddingLandingScene.js';
 
 /**
@@ -31,6 +33,9 @@ const questPreviousButton = document.querySelector('#quest-previous-button');
 const questNextButton = document.querySelector('#quest-next-button');
 const venueInformationRoot = document.querySelector('#venue-information-root');
 const venueFaqRoot = document.querySelector('#venue-faq-root');
+const guestDietaryFormRoot = document.querySelector('#guest-dietary-form-root');
+const rsvpConfirmationDialog = document.querySelector('#rsvp-confirmation-dialog');
+const rsvpConfirmationContent = document.querySelector('#rsvp-confirmation-content');
 const reducedMotionMediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
 
 let weddingLandingScene = null;
@@ -170,6 +175,16 @@ new VenueInformationPanel({
 new VenueFaqAccordion({
   root: venueFaqRoot,
   items: VENUE_FAQ_ITEMS,
+});
+
+new GuestDietaryForm({
+  root: guestDietaryFormRoot,
+  details: WEDDING_DETAILS,
+  store: new GuestRsvpStore(),
+  confirmationDialog: rsvpConfirmationDialog,
+  confirmationContent: rsvpConfirmationContent,
+  onSaved: () => pixelSoundEngine.playJingle(),
+  onError: () => pixelSoundEngine.playError(),
 });
 
 initializeWeddingLandingScene();

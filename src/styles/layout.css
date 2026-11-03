@@ -20,7 +20,7 @@
 
 .site-header.is-condensed {
   border-bottom: 3px solid var(--color-border);
-  background: rgb(7 3 18 / 96%);
+  background: var(--color-night-900);
   box-shadow: 0 4px 0 rgb(0 0 0 / 30%);
 }
 
