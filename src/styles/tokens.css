@@ -1,4 +1,6 @@
 :root {
+  color-scheme: dark;
+
   /* Core palette — sampled from a dusky 16-bit wedding scene. */
   --color-night-900: #070312;
   --color-night-800: #0a0616;

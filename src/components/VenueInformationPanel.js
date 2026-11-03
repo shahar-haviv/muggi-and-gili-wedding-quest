@@ -179,8 +179,8 @@ export class VenueInformationPanel {
         </g>
 
         <text x="8" y="84" class="venue-map__label">SEA</text>
-        <text x="52" y="40" class="venue-map__label" text-anchor="middle">ENTRANCE</text>
-        <text x="35" y="72" class="venue-map__label">PARKING</text>
+        <text x="52" y="38" class="venue-map__label" text-anchor="middle">ENTRANCE</text>
+        <text x="35" y="77" class="venue-map__label">PARKING</text>
         <text x="83" y="15" class="venue-map__label" text-anchor="middle">VILLA AURORA</text>
 
         <g transform="translate(104 8)" fill="#cbb99e">

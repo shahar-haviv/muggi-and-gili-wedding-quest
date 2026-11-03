@@ -39,9 +39,11 @@ export class GuestRsvpStore {
     }
 
     if (this.endpoint) {
+      let requestTimeoutId = null;
+
       try {
         const requestController = new AbortController();
-        const requestTimeout = window.setTimeout(() => requestController.abort(), 8000);
+        requestTimeoutId = window.setTimeout(() => requestController.abort(), 8000);
 
         const serverResponse = await fetch(this.endpoint, {
           method: 'POST',
@@ -53,8 +55,6 @@ export class GuestRsvpStore {
           signal: requestController.signal,
         });
 
-        window.clearTimeout(requestTimeout);
-
         if (!serverResponse.ok) {
           throw new Error(`RSVP endpoint returned ${serverResponse.status}`);
         }
@@ -62,6 +62,10 @@ export class GuestRsvpStore {
         syncedRemotely = true;
       } catch (error) {
         remoteError = error instanceof Error ? error.message : String(error);
+      } finally {
+        if (requestTimeoutId !== null) {
+          window.clearTimeout(requestTimeoutId);
+        }
       }
     }
 

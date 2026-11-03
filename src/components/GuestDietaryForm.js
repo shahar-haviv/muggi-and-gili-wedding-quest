@@ -249,10 +249,12 @@ export class GuestDietaryForm {
   bindEvents() {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleInput = this.handleInput.bind(this);
     this.handleDialogClose = this.handleDialogClose.bind(this);
 
     this.form.addEventListener('submit', this.handleSubmit);
     this.form.addEventListener('change', this.handleFormChange);
+    this.form.addEventListener('input', this.handleInput);
 
     if (this.confirmationDialog) {
       this.confirmationDialog.addEventListener('close', this.handleDialogClose);
@@ -261,6 +263,12 @@ export class GuestDietaryForm {
           this.confirmationDialog.close();
         }
       });
+    }
+  }
+
+  handleInput() {
+    if (this.statusElement?.dataset.tone === 'error') {
+      this.showStatus('', 'neutral');
     }
   }
 

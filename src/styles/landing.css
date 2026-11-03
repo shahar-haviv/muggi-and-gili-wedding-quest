@@ -218,13 +218,20 @@
 
 .landing-hero__hint {
   margin: clamp(18px, 3vw, 26px) 0 0;
-  color: var(--color-cream-dim);
+  padding: 5px 9px;
+  background: rgb(7 3 18 / 68%);
+  box-shadow: 0 0 0 2px rgb(75 47 120 / 42%);
+  color: var(--color-cream);
   font-family: var(--font-display);
   font-size: clamp(0.38rem, 1.3vw, 0.47rem);
   letter-spacing: 0.08em;
   line-height: 1.8;
-  opacity: 0.84;
+  opacity: 1;
   animation-delay: 420ms;
+}
+
+.landing-hero--no-webgl .landing-hero__hint {
+  display: none;
 }
 
 /* Scroll cue sits above the ticker. */
@@ -237,7 +244,9 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  color: var(--color-cream-dim);
+  padding: 6px 10px;
+  background: rgb(7 3 18 / 62%);
+  color: var(--color-cream);
   font-family: var(--font-display);
   font-size: clamp(0.36rem, 1.2vw, 0.44rem);
   letter-spacing: 0.1em;

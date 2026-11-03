@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "type": "module",
   "description": "A mobile-first, 8-bit wedding invitation, timeline, and RSVP experience for Shahar & Liza.",
+  "engines": {
+    "node": ">=20.19.0"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
