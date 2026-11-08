@@ -24,9 +24,12 @@ export const WEDDING_DETAILS: WeddingDetails = Object.freeze({
     address: 'HaZorfim St 15, Jaffa, Tel Aviv-Yafo',
     mapsUrl:
       'https://www.google.com/maps/search/?api=1&query=Consul+House+HaZorfim+15+Jaffa+Tel+Aviv',
+    parkingName: 'HaZorfim Parking Lot (חניון הצורפים)',
+    parkingMapsUrl:
+      'https://www.google.com/maps/search/?api=1&query=%D7%97%D7%A0%D7%99%D7%95%D7%9F+%D7%94%D7%A6%D7%95%D7%A8%D7%A4%D7%99%D7%9D+HaZorfim+15+Jaffa+Tel+Aviv',
     coordinates: {
-      latitude: 32.0554,
-      longitude: 34.7538,
+      latitude: 32.05383,
+      longitude: 34.7539,
     },
     arrivalNote:
       'Doors open at 18:00. Enter through the historic 1845 stone archway on HaZorfim 15 and head up to the Old Jaffa terrace.',

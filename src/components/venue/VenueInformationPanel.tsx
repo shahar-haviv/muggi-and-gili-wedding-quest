@@ -7,8 +7,8 @@ interface VenueInformationPanelProps {
 }
 
 /**
- * Single-responsibility panel displaying practical venue details and outbound
- * Google Maps + Google Calendar actions.
+ * Single-responsibility panel displaying the clickable Old Jaffa pixel map,
+ * practical venue details, and outbound Google Maps + Google Calendar actions.
  */
 export function VenueInformationPanel({ details }: VenueInformationPanelProps) {
   return (
@@ -16,19 +16,41 @@ export function VenueInformationPanel({ details }: VenueInformationPanelProps) {
       <div className="venue-layout">
         <figure className="venue-map pixel-frame">
           <div className="venue-map__header">
-            <span>WORLD MAP</span>
+            <span>INTERACTIVE WORLD MAP</span>
             <span>
               {details.venue.city.toUpperCase()} · {details.venue.country.toUpperCase()}
             </span>
           </div>
 
           <div className="venue-map__canvas">
-            <VenuePixelMap />
+            <VenuePixelMap
+              venueMapsUrl={details.venue.mapsUrl}
+              parkingMapsUrl={details.venue.parkingMapsUrl}
+            />
           </div>
 
           <figcaption className="venue-map__caption">
-            <span>ILLUSTRATIVE MAP</span>
-            <span>NOT TO SCALE</span>
+            <span className="venue-map__caption-hint">
+              TAP CONSUL HOUSE OR [P] PARKING TO OPEN IN MAPS
+            </span>
+            <div className="venue-map__quick-links">
+              <a
+                href={details.venue.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="venue-map__chip venue-map__chip--venue"
+              >
+                CONSUL HOUSE &gt;
+              </a>
+              <a
+                href={details.venue.parkingMapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="venue-map__chip venue-map__chip--parking"
+              >
+                [P] HAZORFIM LOT &gt;
+              </a>
+            </div>
           </figcaption>
         </figure>
 
@@ -46,7 +68,17 @@ export function VenueInformationPanel({ details }: VenueInformationPanelProps) {
             </div>
             <div className="venue-fact">
               <dt>PARKING</dt>
-              <dd>{details.venue.parkingNote}</dd>
+              <dd>
+                {details.venue.parkingNote}{' '}
+                <a
+                  href={details.venue.parkingMapsUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="venue-fact__inline-link"
+                >
+                  Open {details.venue.parkingName} in Maps ↗
+                </a>
+              </dd>
             </div>
             <div className="venue-fact">
               <dt>ACCESSIBILITY</dt>
@@ -61,7 +93,15 @@ export function VenueInformationPanel({ details }: VenueInformationPanelProps) {
               target="_blank"
               rel="noopener noreferrer"
             >
-              OPEN IN MAPS
+              CONSUL HOUSE MAPS
+            </a>
+            <a
+              className="pixel-button pixel-button--ghost"
+              href={details.venue.parkingMapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              PARKING MAPS
             </a>
             <a
               className="pixel-button pixel-button--ghost"

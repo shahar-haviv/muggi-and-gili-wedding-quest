@@ -17,6 +17,8 @@ export interface VenueDetails {
   readonly country: string;
   readonly address: string;
   readonly mapsUrl: string;
+  readonly parkingName: string;
+  readonly parkingMapsUrl: string;
   readonly coordinates: VenueCoordinates;
   readonly arrivalNote: string;
   readonly parkingNote: string;

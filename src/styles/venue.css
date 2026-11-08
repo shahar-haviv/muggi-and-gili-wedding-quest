@@ -50,8 +50,20 @@
 .venue-map__north {
   fill: var(--color-cream-dim);
   font-family: var(--font-display);
-  font-size: 3.1px;
+  font-size: 3.2px;
   letter-spacing: 0.04em;
+}
+
+.venue-map__label--sea {
+  fill: #8ec5ff;
+}
+
+.venue-map__street-label {
+  fill: #cbb99e;
+  font-family: var(--font-display);
+  font-size: 2.7px;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
 }
 
 .venue-map__parking-label {
@@ -63,6 +75,37 @@
 .venue-map__north {
   fill: var(--color-gold);
   font-size: 4px;
+}
+
+.venue-map__hotspot {
+  cursor: pointer;
+  outline: none;
+}
+
+.venue-map__hotspot-title {
+  fill: var(--color-rose-bright);
+  font-family: var(--font-display);
+  font-size: 3.1px;
+  letter-spacing: 0.03em;
+}
+
+.venue-map__hotspot-title--mint {
+  fill: var(--color-mint);
+}
+
+.venue-map__hotspot-subtitle {
+  fill: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: 2.4px;
+  letter-spacing: 0.03em;
+}
+
+.venue-map__hotspot:hover .venue-map__building-box,
+.venue-map__hotspot:focus-visible .venue-map__building-box,
+.venue-map__hotspot:hover .venue-map__hotspot-pill,
+.venue-map__hotspot:focus-visible .venue-map__hotspot-pill {
+  stroke: var(--color-gold);
+  filter: brightness(1.18);
 }
 
 .venue-map__pin {
@@ -78,10 +121,71 @@
 }
 
 .venue-map__caption {
-  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 12px;
   color: var(--color-cream-dim);
   font-size: 0.38rem;
-  opacity: 0.8;
+}
+
+.venue-map__caption-hint {
+  color: var(--color-gold);
+  text-align: center;
+}
+
+.venue-map__quick-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.venue-map__chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  padding: 6px 8px;
+  border: 2px solid var(--color-border);
+  background: #0b0618;
+  box-shadow: 2px 2px 0 rgb(0 0 0 / 45%);
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: clamp(0.34rem, 1.2vw, 0.42rem);
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    border-color var(--transition-snap),
+    background-color var(--transition-snap),
+    color var(--transition-snap);
+}
+
+.venue-map__chip--venue {
+  border-color: var(--color-rose);
+  color: var(--color-rose-bright);
+}
+
+.venue-map__chip--parking {
+  border-color: var(--color-mint);
+  color: var(--color-mint);
+}
+
+.venue-map__chip:hover,
+.venue-map__chip:focus-visible {
+  border-color: var(--color-gold);
+  background: #24164a;
+  color: var(--color-gold);
+}
+
+.venue-fact__inline-link {
+  display: inline-block;
+  margin-top: 4px;
+  color: var(--color-mint);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.04em;
 }
 
 .venue-details {
