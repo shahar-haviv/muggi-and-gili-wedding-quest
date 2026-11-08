@@ -149,6 +149,14 @@ export class WeddingLandingScene {
       Math.round(lowResolutionWidth / cssAspect),
     );
 
+    if (
+      lowResolutionWidth === this.lowResolutionWidth &&
+      lowResolutionHeight === this.lowResolutionHeight &&
+      this.cssAspect === cssAspect
+    ) {
+      return;
+    }
+
     this.cssAspect = cssAspect;
     this.lowResolutionWidth = lowResolutionWidth;
     this.lowResolutionHeight = lowResolutionHeight;
@@ -324,10 +332,21 @@ export class WeddingLandingScene {
     if (!this.isRunning) return;
 
     const frameTimestamp = performance.now();
-    const deltaSeconds = Math.min(
-      (frameTimestamp - this.lastFrameTimestamp) / 1000,
-      0.05,
-    );
+    const rawElapsedMs = frameTimestamp - this.lastFrameTimestamp;
+    const isActivelyInteracting =
+      this.isPointerDown ||
+      this.celebrationEnergy > 0.01 ||
+      Math.abs(BASE_AZIMUTH + this.targetAzimuthOffset - this.currentAzimuth) > 0.01 ||
+      Math.abs(BASE_ELEVATION + this.targetElevationOffset - this.currentElevation) > 0.01;
+
+    // Pace idle background animation to ~30fps so high-refresh displays don't
+    // burn GPU/main-thread time while still running full speed during drags.
+    if (this.hasRenderedFirstFrame && !isActivelyInteracting && rawElapsedMs < 31) {
+      this.animationFrameRequest = requestAnimationFrame(this.renderFrame);
+      return;
+    }
+
+    const deltaSeconds = Math.min(rawElapsedMs / 1000, 0.05);
     this.lastFrameTimestamp = frameTimestamp;
     this.elapsedSeconds += deltaSeconds;
     this.celebrationEnergy = Math.max(0, this.celebrationEnergy - deltaSeconds * 0.85);

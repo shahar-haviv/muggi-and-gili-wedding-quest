@@ -68,12 +68,16 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
 
   function addBox(
     parent,
-    { width, height, depth, colour, x = 0, y = 0, z = 0, material, rotationY = 0 },
+    { width, height, depth, colour, x = 0, y = 0, z = 0, material, rotationY = 0, isDynamic = false },
   ) {
     const mesh = new THREE.Mesh(unitBoxGeometry, material ?? getLambertMaterial(colour));
     mesh.scale.set(width, height, depth);
     mesh.position.set(x, y, z);
     mesh.rotation.y = rotationY;
+    if (!isDynamic) {
+      mesh.updateMatrix();
+      mesh.matrixAutoUpdate = false;
+    }
     parent.add(mesh);
     return mesh;
   }
@@ -83,6 +87,8 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
     shadow.rotation.x = -Math.PI / 2;
     shadow.position.set(x, 0.045, z);
     shadow.scale.set(radius, radius, 1);
+    shadow.updateMatrix();
+    shadow.matrixAutoUpdate = false;
     world.add(shadow);
   }
 
@@ -151,7 +157,9 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
     fog: false,
   });
 
-  const skyDome = new THREE.Mesh(new THREE.SphereGeometry(48, 24, 16), skyMaterial);
+  const skyDome = new THREE.Mesh(new THREE.SphereGeometry(48, 14, 10), skyMaterial);
+  skyDome.updateMatrix();
+  skyDome.matrixAutoUpdate = false;
   world.add(skyDome);
 
   const starRandom = createSeededRandom(2027);
@@ -220,7 +228,7 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
     const radius = 27 + hillRandom() * 5;
     const hillWidth = 7 + hillRandom() * 6;
     const hillHeight = 4 + hillRandom() * 7;
-    const hill = addBox(world, {
+    addBox(world, {
       width: hillWidth,
       height: hillHeight,
       depth: 5,
@@ -228,8 +236,8 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
       x: Math.cos(angle) * radius,
       y: hillHeight / 2 - 1.6,
       z: Math.sin(angle) * radius,
+      rotationY: angle,
     });
-    hill.rotation.y = angle;
   }
 
   /* ------------------------------------------------------------------
@@ -337,7 +345,7 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
     }
   });
 
-  const canopyGeometry = new THREE.PlaneGeometry(4.9, 4.9, 12, 12);
+  const canopyGeometry = new THREE.PlaneGeometry(4.9, 4.9, 6, 6);
   const canopyMaterial = new THREE.MeshBasicMaterial({
     map: textures.canopy,
     side: THREE.DoubleSide,
@@ -969,15 +977,15 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
   ------------------------------------------------------------------ */
   const heartRandom = createSeededRandom(1206);
   const heartCount = isCompactViewport ? 12 : 20;
+  const heartMaterial = new THREE.SpriteMaterial({
+    map: textures.heart,
+    transparent: true,
+    depthWrite: false,
+    toneMapped: false,
+    opacity: 0.9,
+  });
 
   for (let index = 0; index < heartCount; index += 1) {
-    const heartMaterial = new THREE.SpriteMaterial({
-      map: textures.heart,
-      transparent: true,
-      depthWrite: false,
-      toneMapped: false,
-      opacity: 0.9,
-    });
     const heart = new THREE.Sprite(heartMaterial);
     const heartScale = 0.16 + heartRandom() * 0.12;
     heart.scale.set(heartScale, heartScale * 0.86, 1);
@@ -1000,15 +1008,10 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
   const fireflyRandom = createSeededRandom(808);
   const fireflyCount = isCompactViewport ? 8 : 14;
   const fireflyColours = [PIXEL_PALETTE.bulbWarm, PIXEL_PALETTE.bulbRose, PIXEL_PALETTE.bulbMint];
-
-  for (let index = 0; index < fireflyCount; index += 1) {
-    const firefly = addBox(world, {
-      width: 0.08,
-      height: 0.08,
-      depth: 0.08,
-      colour: fireflyColours[index % fireflyColours.length],
-      material: new THREE.MeshBasicMaterial({
-        color: fireflyColours[index % fireflyColours.length],
+  const fireflyMaterials = fireflyColours.map(
+    (fireflyColour) =>
+      new THREE.MeshBasicMaterial({
+        color: fireflyColour,
         transparent: true,
         opacity: 0.9,
         blending: THREE.AdditiveBlending,
@@ -1016,9 +1019,19 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
         toneMapped: false,
         fog: false,
       }),
+  );
+
+  for (let index = 0; index < fireflyCount; index += 1) {
+    const firefly = addBox(world, {
+      width: 0.08,
+      height: 0.08,
+      depth: 0.08,
+      colour: fireflyColours[index % fireflyColours.length],
+      material: fireflyMaterials[index % fireflyMaterials.length],
       x: -5 + fireflyRandom() * 10,
       y: 1 + fireflyRandom() * 2.5,
       z: -4 + fireflyRandom() * 8,
+      isDynamic: true,
     });
 
     driftingFireflies.push({
@@ -1081,6 +1094,7 @@ export function buildWeddingDiorama({ scene, isCompactViewport = false, reducedM
       bulb.mesh.scale
         .copy(bulb.baseScaleVector)
         .multiplyScalar(1 + travel + celebrationBoost);
+      bulb.mesh.updateMatrix();
     });
 
     if (!reducedMotion) {

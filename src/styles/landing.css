@@ -4,6 +4,7 @@
 .landing-hero {
   position: relative;
   isolation: isolate;
+  contain: layout paint;
   overflow: hidden;
   min-height: 100svh;
   background: var(--color-night-800);
@@ -83,7 +84,6 @@
     transparent 1px,
     transparent 3px
   );
-  mix-blend-mode: multiply;
 }
 
 .landing-hero__content {
@@ -112,6 +112,7 @@
   width: clamp(38px, 8vw, 58px);
   color: var(--color-rose);
   filter: drop-shadow(4px 4px 0 #4b1232) drop-shadow(0 0 18px rgb(242 121 155 / 50%));
+  will-change: transform;
   animation: pixel-heart-float 2.8s steps(8, end) infinite;
 }
 
@@ -306,6 +307,7 @@
   position: absolute;
   inset: 0;
   z-index: 5;
+  contain: layout paint;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -318,6 +320,7 @@
 .boot-screen.is-dismissed {
   visibility: hidden;
   opacity: 0;
+  pointer-events: none;
   animation: none;
   transition:
     opacity 280ms steps(3, end),
@@ -343,8 +346,11 @@
 
 .boot-screen__bar {
   display: block;
-  width: 0;
+  width: 100%;
   height: 100%;
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
   background: repeating-linear-gradient(
     90deg,
     var(--color-rose) 0 8px,
@@ -408,10 +414,10 @@
 
 @keyframes boot-bar-fill {
   from {
-    width: 0;
+    transform: scaleX(0);
   }
   to {
-    width: 100%;
+    transform: scaleX(1);
   }
 }
 

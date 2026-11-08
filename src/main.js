@@ -9,7 +9,6 @@ import { WEDDING_DETAILS } from './data/weddingDetails.js';
 import { WEDDING_TIMELINE_STAGES } from './data/weddingTimeline.js';
 import { VENUE_FAQ_ITEMS } from './data/venueFaq.js';
 import { GuestRsvpStore } from './services/GuestRsvpStore.js';
-import { WeddingLandingScene } from './three/WeddingLandingScene.js';
 
 /**
  * Page-level chrome and the single Three.js experience live here. Feature
@@ -93,8 +92,12 @@ function handleSoundToggle() {
   syncSoundToggle();
 }
 
+let isHeaderCondensed = null;
+
 function updateHeaderOnScroll() {
   const hasScrolledPastTitle = window.scrollY > 24;
+  if (hasScrolledPastTitle === isHeaderCondensed) return;
+  isHeaderCondensed = hasScrolledPastTitle;
   siteHeader?.classList.toggle('is-condensed', hasScrolledPastTitle);
 }
 
@@ -107,13 +110,15 @@ function showStaticLandingFallback() {
   dismissBootScreen();
 }
 
-function initializeWeddingLandingScene() {
+async function initializeWeddingLandingScene() {
   if (!landingCanvas) return null;
 
   try {
+    const { WeddingLandingScene } = await import('./three/WeddingLandingScene.js');
+
     weddingLandingScene = new WeddingLandingScene({
       canvas: landingCanvas,
-      onReady: dismissBootScreen,
+      onReady: () => window.requestAnimationFrame(dismissBootScreen),
       onCelebration: () => pixelSoundEngine.playCelebration(),
     });
 
@@ -187,4 +192,9 @@ new GuestDietaryForm({
   onError: () => pixelSoundEngine.playError(),
 });
 
-initializeWeddingLandingScene();
+// Defer WebGL diorama boot until after the browser paints the initial UI shell.
+window.requestAnimationFrame(() => {
+  window.setTimeout(() => {
+    initializeWeddingLandingScene();
+  }, 0);
+});
