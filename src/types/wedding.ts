@@ -101,9 +101,37 @@ export type SideQuestSlug = 'bachelor' | 'bachelorette' | 'united';
 
 export type AppRoutePath =
   | '/'
+  | '/love-game'
   | '/side-quest/bachelor'
   | '/side-quest/bachelorette'
   | '/side-quest/united';
+
+export type LoveGameSceneType =
+  | 'tavern-feast'
+  | 'first-alliance'
+  | 'twin-dragons'
+  | 'rekindled-flame'
+  | 'castle-north'
+  | 'castle-king-george'
+  | 'castle-masaryk';
+
+export interface LoveGameChapter {
+  readonly id: string;
+  readonly chapterNumber: string;
+  readonly eraLabel: string;
+  readonly title: string;
+  readonly subtitle: string;
+  readonly locationRealm: string;
+  readonly realWorldParallel: string;
+  readonly accent: StageAccent;
+  readonly sceneType: LoveGameSceneType;
+  readonly narrative: string;
+  readonly muggiStatus: string;
+  readonly giliStatus: string;
+  readonly actionLabel: string;
+  readonly actionReactionText: string;
+  readonly lootUnlocked: string;
+}
 
 export interface SideQuestCheckpoint {
   readonly step: string;

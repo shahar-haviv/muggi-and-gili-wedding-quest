@@ -6,6 +6,7 @@ import { SIDE_QUESTS } from './data/sideQuests.ts';
 import { VENUE_FAQ_ITEMS } from './data/venueFaq.ts';
 import { WEDDING_DETAILS } from './data/weddingDetails.ts';
 import { WEDDING_TIMELINE_STAGES } from './data/weddingTimeline.ts';
+import { LoveGamePage } from './pages/LoveGamePage.tsx';
 import { MainWeddingPage } from './pages/MainWeddingPage.tsx';
 import { SideQuestPage } from './pages/SideQuestPage.tsx';
 import { useRoute } from './router/useRoute.ts';
@@ -27,7 +28,7 @@ export function App() {
     soundEngine.playStageAdvance();
   }, [soundEngine]);
 
-  const { sideQuestSlug } = useRoute(handleRouteChanged);
+  const { route, sideQuestSlug, navigate } = useRoute(handleRouteChanged);
 
   const handleToggleSound = useCallback(() => {
     const nextState = !soundEngine.enabled;
@@ -60,6 +61,11 @@ export function App() {
     soundEngine.playError();
   }, [soundEngine]);
 
+  const handleOpenLoveGame = useCallback(() => {
+    soundEngine.playJingle();
+    navigate('/love-game');
+  }, [navigate, soundEngine]);
+
   const activeSideQuest = sideQuestSlug ? SIDE_QUESTS[sideQuestSlug] : null;
 
   return (
@@ -70,7 +76,9 @@ export function App() {
 
       <SiteHeader
         details={WEDDING_DETAILS}
+        currentRoute={route}
         activeSideQuest={activeSideQuest}
+        onNavigate={navigate}
         isSoundEnabled={isSoundEnabled}
         onToggleSound={handleToggleSound}
       />
@@ -78,11 +86,18 @@ export function App() {
       <main id="main-content">
         {activeSideQuest ? (
           <SideQuestPage quest={activeSideQuest} />
+        ) : route === '/love-game' ? (
+          <LoveGamePage
+            onNavigate={navigate}
+            onStageAdvanceSound={handleStageAdvanceSound}
+            onCelebrationSound={handleCelebrationSound}
+          />
         ) : (
           <MainWeddingPage
             details={WEDDING_DETAILS}
             timelineStages={WEDDING_TIMELINE_STAGES}
             faqItems={VENUE_FAQ_ITEMS}
+            onOpenLoveGame={handleOpenLoveGame}
             onCelebrationSound={handleCelebrationSound}
             onJingleSound={handleJingleSound}
             onStageAdvanceSound={handleStageAdvanceSound}
@@ -91,7 +106,11 @@ export function App() {
         )}
       </main>
 
-      <SiteFooter details={WEDDING_DETAILS} activeSideQuest={activeSideQuest} />
+      <SiteFooter
+        details={WEDDING_DETAILS}
+        currentRoute={route}
+        activeSideQuest={activeSideQuest}
+      />
     </>
   );
 }

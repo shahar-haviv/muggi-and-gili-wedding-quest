@@ -13,6 +13,9 @@ import type { AppRoutePath, SideQuestSlug } from '../types/wedding.ts';
 export function resolveAppRoute(rawPathname: string): AppRoutePath {
   const cleaned = rawPathname.replace(/\/+$/, '').toLowerCase();
 
+  if (cleaned.endsWith('/love-game')) {
+    return '/love-game';
+  }
   if (cleaned.endsWith('/side-quest/bachelor')) {
     return '/side-quest/bachelor';
   }

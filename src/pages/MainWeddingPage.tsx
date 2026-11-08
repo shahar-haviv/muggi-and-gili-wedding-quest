@@ -18,6 +18,7 @@ interface MainWeddingPageProps {
   readonly details: WeddingDetails;
   readonly timelineStages: readonly TimelineStage[];
   readonly faqItems: readonly FaqItem[];
+  readonly onOpenLoveGame: () => void;
   readonly onCelebrationSound: () => void;
   readonly onJingleSound: () => void;
   readonly onStageAdvanceSound: () => void;
@@ -32,6 +33,7 @@ export function MainWeddingPage({
   details,
   timelineStages,
   faqItems,
+  onOpenLoveGame,
   onCelebrationSound,
   onJingleSound,
   onStageAdvanceSound,
@@ -54,6 +56,7 @@ export function MainWeddingPage({
         details={details}
         onCelebrationSound={onCelebrationSound}
         onStartQuestSound={onJingleSound}
+        onOpenLoveGame={onOpenLoveGame}
       />
 
       <WeddingCountdown targetDateIso={details.weddingDateIso} />

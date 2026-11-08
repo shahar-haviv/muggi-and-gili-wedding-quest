@@ -1,13 +1,18 @@
-import type { SideQuestConfig, WeddingDetails } from '../../types/wedding.ts';
+import type { AppRoutePath, SideQuestConfig, WeddingDetails } from '../../types/wedding.ts';
 import { PixelHeartIcon } from '../common/PixelHeartIcon.tsx';
 
 interface SiteFooterProps {
   readonly details: WeddingDetails;
+  readonly currentRoute: AppRoutePath;
   readonly activeSideQuest: SideQuestConfig | null;
 }
 
-export function SiteFooter({ details, activeSideQuest }: SiteFooterProps) {
-  const topAnchor = activeSideQuest ? '#side-quest-top' : '#landing-hero';
+export function SiteFooter({ details, currentRoute, activeSideQuest }: SiteFooterProps) {
+  const topAnchor = activeSideQuest
+    ? '#side-quest-top'
+    : currentRoute === '/love-game'
+      ? '#love-game-top'
+      : '#landing-hero';
 
   return (
     <footer className="site-footer">

@@ -7,6 +7,7 @@ interface LandingHeroProps {
   readonly details: WeddingDetails;
   readonly onCelebrationSound: () => void;
   readonly onStartQuestSound: () => void;
+  readonly onOpenLoveGame: () => void;
 }
 
 declare global {
@@ -23,6 +24,7 @@ export function LandingHero({
   details,
   onCelebrationSound,
   onStartQuestSound,
+  onOpenLoveGame,
 }: LandingHeroProps) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const sceneRef = useRef<WeddingLandingScene | null>(null);
@@ -151,6 +153,17 @@ export function LandingHero({
           >
             PRESS START
           </button>
+          <a
+            className="pixel-button"
+            id="play-love-game-button"
+            href="/love-game"
+            onClick={(e) => {
+              e.preventDefault();
+              onOpenLoveGame();
+            }}
+          >
+            PLAY THE LOVE GAME
+          </a>
           <a className="pixel-button pixel-button--ghost" href="#rsvp">
             RSVP NOW
           </a>
