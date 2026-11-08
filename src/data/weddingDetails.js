@@ -5,8 +5,8 @@
 export const WEDDING_DETAILS = Object.freeze({
   couple: {
     partnerOne: 'Shahar',
-    partnerTwo: 'Liza',
-    monogram: 'S&L',
+    partnerTwo: 'Almog',
+    monogram: 'S&A',
   },
   weddingDateIso: '2027-06-12T19:00:00+03:00',
   weddingDateDisplay: '12 · 06 · 2027',
@@ -14,7 +14,7 @@ export const WEDDING_DETAILS = Object.freeze({
   rsvpDeadlineIso: '2027-05-12T23:59:59+03:00',
   rsvpDeadlineDisplay: '12 · 05 · 2027',
   dressCode: 'Garden festive',
-  contactEmail: 'hello@shaharandliza.example',
+  contactEmail: 'hello@shaharandalmog.example',
   venue: {
     name: 'Villa Aurora',
     city: 'Caesarea',
@@ -34,7 +34,7 @@ export const WEDDING_DETAILS = Object.freeze({
       'The ceremony and reception areas are step-free. Tell us about any access needs in the RSVP notes.',
   },
   calendar: {
-    title: 'Shahar & Liza — A Wedding Quest',
+    title: 'Shahar & Almog — A Wedding Quest',
     details:
       'Two players, one very good night. Ceremony at 19:12, feast and dancing to follow. Dress code: garden festive.',
     location: 'Villa Aurora, Caesarea, Israel',

@@ -1,9 +1,9 @@
 {
-  "name": "shahar-and-liza-wedding-quest",
+  "name": "shahar-and-almog-wedding-quest",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "A mobile-first, 8-bit wedding invitation, timeline, and RSVP experience for Shahar & Liza.",
+  "description": "A mobile-first, 8-bit wedding invitation, timeline, and RSVP experience for Shahar & Almog.",
   "engines": {
     "node": ">=20.19.0"
   },
@@ -18,7 +18,7 @@
     "threejs",
     "pixel-art"
   ],
-  "author": "Shahar & Liza",
+  "author": "Shahar & Almog",
   "license": "MIT",
   "dependencies": {
     "three": "^0.187.0"

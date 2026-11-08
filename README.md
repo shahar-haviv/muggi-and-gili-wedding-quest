@@ -1,4 +1,4 @@
-# Shahar & Liza — A Wedding Quest
+# Shahar & Almog — A Wedding Quest
 
 A mobile-first wedding invitation, timeline, venue guide, and dietary RSVP
 wrapped in a hand-built 8-bit / 16-bit wedding diorama. The landing scene is a
