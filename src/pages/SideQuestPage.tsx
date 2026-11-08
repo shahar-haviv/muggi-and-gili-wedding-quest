@@ -1,14 +1,14 @@
+import { SideQuestSceneCanvas } from '../components/sidequest/SideQuestSceneCanvas.tsx';
 import type { SideQuestConfig } from '../types/wedding.ts';
-import { PixelHeartIcon } from '../components/common/PixelHeartIcon.tsx';
 
 interface SideQuestPageProps {
   readonly quest: SideQuestConfig;
 }
 
 /**
- * Standalone secret page for `/side-quest/bachelor`, `/side-quest/bachelorette`,
- * or `/side-quest/united`. Accessible only via direct URL without cross-links
- * to the other side quests.
+ * Calm, stylish secret page for `/side-quest/bachelor`, `/side-quest/bachelorette`,
+ * or `/side-quest/united`. Features a bespoke low-res pixel-art scene canvas
+ * and clean, readable details.
  */
 export function SideQuestPage({ quest }: SideQuestPageProps) {
   return (
@@ -17,22 +17,27 @@ export function SideQuestPage({ quest }: SideQuestPageProps) {
       id="side-quest-top"
     >
       <section className="side-quest-hero" aria-labelledby="side-quest-title">
-        <div className="side-quest-hero__scanlines" aria-hidden="true" />
-        <div className="content-section__inner side-quest-hero__inner">
-          <div className="side-quest-hero__banner pixel-frame">
-            <div className="side-quest-hero__eyebrow-row">
-              <span className="side-quest-hero__badge">SECRET STAGE · {quest.tabBadge}</span>
-              <span className="side-quest-hero__eyebrow">{quest.eyebrow}</span>
+        <div className="content-section__inner side-quest-shell">
+          <div className="side-quest-card">
+            <div className="side-quest-card__top">
+              <span className="side-quest-card__badge">{quest.tabBadge}</span>
+              <span className="side-quest-card__eyebrow">{quest.eyebrow}</span>
             </div>
 
-            <h1 className="side-quest-hero__title" id="side-quest-title">
-              {quest.title}
-            </h1>
-            <p className="side-quest-hero__subtitle">{quest.subtitle}</p>
+            <div className="side-quest-canvas-wrap">
+              <SideQuestSceneCanvas slug={quest.slug} />
+            </div>
+
+            <div className="side-quest-header-copy">
+              <h1 className="side-quest-title" id="side-quest-title">
+                {quest.title}
+              </h1>
+              <p className="side-quest-subtitle">{quest.subtitle}</p>
+            </div>
 
             <div className="side-quest-stats-grid">
               <div className="side-quest-stat">
-                <span className="side-quest-stat__label">SQUAD</span>
+                <span className="side-quest-stat__label">WHO</span>
                 <span className="side-quest-stat__value">{quest.hostLabel}</span>
               </div>
               <div className="side-quest-stat">
@@ -40,35 +45,27 @@ export function SideQuestPage({ quest }: SideQuestPageProps) {
                 <span className="side-quest-stat__value">{quest.dateDisplay}</span>
               </div>
               <div className="side-quest-stat">
-                <span className="side-quest-stat__label">SPAWN POINT</span>
+                <span className="side-quest-stat__label">WHERE</span>
                 <span className="side-quest-stat__value">{quest.locationDisplay}</span>
               </div>
               <div className="side-quest-stat">
-                <span className="side-quest-stat__label">MODE</span>
+                <span className="side-quest-stat__label">VIBE</span>
                 <span className="side-quest-stat__value">{quest.vibeLevel}</span>
               </div>
             </div>
           </div>
-        </div>
-      </section>
 
-      <section className="content-section side-quest-body" aria-label="Side quest mission details">
-        <div className="content-section__inner">
-          <div className="side-quest-grid">
-            <article className="side-quest-panel pixel-frame" id="briefing">
-              <p className="section-heading__eyebrow">MISSION BRIEFING</p>
-              <h2 className="side-quest-panel__title">ABOUT THIS SIDE QUEST</h2>
+          <div className="side-quest-grid" id="briefing">
+            <article className="side-quest-panel">
+              <p className="side-quest-panel__eyebrow">THE PLAN</p>
+              <h2 className="side-quest-panel__title">What to Expect</h2>
               <p className="side-quest-panel__copy">{quest.description}</p>
-
-              <div className="side-quest-design-callout">
-                <PixelHeartIcon />
-                <p>{quest.designPromptHint}</p>
-              </div>
+              <p className="side-quest-panel__note">{quest.designPromptHint}</p>
             </article>
 
-            <aside className="side-quest-panel pixel-frame" id="loadout">
-              <p className="section-heading__eyebrow">INVENTORY</p>
-              <h2 className="side-quest-panel__title">REQUIRED LOADOUT</h2>
+            <aside className="side-quest-panel" id="loadout">
+              <p className="side-quest-panel__eyebrow">PACKING LIST</p>
+              <h2 className="side-quest-panel__title">What to Bring</h2>
               <ul className="side-quest-loadout-list">
                 {quest.loadoutItems.map((item) => (
                   <li key={item}>{item}</li>
@@ -81,16 +78,14 @@ export function SideQuestPage({ quest }: SideQuestPageProps) {
           </div>
 
           <div className="side-quest-checkpoints" id="stages">
-            <header className="section-heading">
-              <p className="section-heading__eyebrow">STAGE ROUTE</p>
-              <h2>SIDE QUEST CHECKPOINTS</h2>
-            </header>
+            <p className="side-quest-panel__eyebrow">LINEUP</p>
+            <h2 className="side-quest-checkpoints__heading">Party Stages</h2>
 
             <div className="side-quest-checkpoint-grid">
               {quest.checkpoints.map((cp) => (
-                <article key={cp.step} className="side-quest-checkpoint-card pixel-frame">
+                <article key={cp.step} className="side-quest-checkpoint-card">
                   <div className="side-quest-checkpoint-card__header">
-                    <span className="side-quest-checkpoint-card__step">STAGE {cp.step}</span>
+                    <span className="side-quest-checkpoint-card__step">{cp.step}</span>
                     <span className="side-quest-checkpoint-card__time">{cp.time}</span>
                   </div>
                   <h3 className="side-quest-checkpoint-card__title">{cp.title}</h3>
