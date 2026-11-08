@@ -4,47 +4,47 @@
  */
 export const WEDDING_DETAILS = Object.freeze({
   couple: {
-    partnerOne: 'Shahar',
-    partnerTwo: 'Almog',
-    monogram: 'S&A',
+    partnerOne: 'Muggi',
+    partnerTwo: 'Gili',
+    monogram: 'M&G',
   },
-  weddingDateIso: '2027-06-12T19:00:00+03:00',
-  weddingDateDisplay: '12 · 06 · 2027',
-  weddingDayLabel: 'SATURDAY',
-  rsvpDeadlineIso: '2027-05-12T23:59:59+03:00',
-  rsvpDeadlineDisplay: '12 · 05 · 2027',
-  dressCode: 'Garden festive',
-  contactEmail: 'hello@shaharandalmog.example',
+  weddingDateIso: '2027-05-19T18:00:00+03:00',
+  weddingDateDisplay: '19 · 05 · 2027',
+  weddingDayLabel: 'WEDNESDAY',
+  rsvpDeadlineIso: '2027-04-19T23:59:59+03:00',
+  rsvpDeadlineDisplay: '19 · 04 · 2027',
+  dressCode: 'Jaffa festive',
+  contactEmail: 'hello@muggiandgili.example',
   venue: {
-    name: 'Villa Aurora',
-    city: 'Caesarea',
+    name: 'Consul House',
+    city: 'Jaffa, Tel Aviv',
     country: 'Israel',
-    address: 'Villa Aurora, Caesarea, Israel',
+    address: 'HaZorfim St 15, Jaffa, Tel Aviv-Yafo',
     mapsUrl:
-      'https://www.google.com/maps/search/?api=1&query=Villa+Aurora+Caesarea+Israel',
+      'https://www.google.com/maps/search/?api=1&query=Consul+House+HaZorfim+15+Jaffa+Tel+Aviv',
     coordinates: {
-      latitude: 32.5189,
-      longitude: 34.9044,
+      latitude: 32.0554,
+      longitude: 34.7538,
     },
     arrivalNote:
-      'Gates open at 18:30. Follow the lantern-lit path past the old stone house.',
+      'Doors open at 18:00. Enter through the historic 1845 stone archway on HaZorfim 15 and head up to the Old Jaffa terrace.',
     parkingNote:
-      'Free parking is available beside the garden entrance. Carpooling is encouraged.',
+      'HaZorfim Parking Lot (HaZorfim 15A) is right next door and open 24/7. Additional lots are a short walk away near the Flea Market and promenade.',
     accessibilityNote:
-      'The ceremony and reception areas are step-free. Tell us about any access needs in the RSVP notes.',
+      'Step-free access is available across the historic courtyard and event spaces. Tell us about any access needs in the RSVP notes.',
   },
   calendar: {
-    title: 'Shahar & Almog — A Wedding Quest',
+    title: 'Muggi & Gili — A Wedding Quest',
     details:
-      'Two players, one very good night. Ceremony at 19:12, feast and dancing to follow. Dress code: garden festive.',
-    location: 'Villa Aurora, Caesarea, Israel',
+      'Two players, one very good night at Consul House in Old Jaffa. Greeting at 18:00, ceremony at 19:00, feast and dancing at 20:00.',
+    location: 'Consul House, HaZorfim St 15, Jaffa, Tel Aviv-Yafo, Israel',
     durationHours: 6,
   },
   tickerMessages: [
-    '12.06.2027',
-    'VILLA AURORA',
-    'RSVP BY 12.05.2027',
-    'DRESS CODE: GARDEN FESTIVE',
+    '19.05.2027',
+    'CONSUL HOUSE · JAFFA',
+    'RSVP BY 19.04.2027',
+    'GREETING 18:00 · CEREMONY 19:00 · FEAST 20:00',
     'TWO PLAYERS, ONE LOVE STORY',
   ],
 });

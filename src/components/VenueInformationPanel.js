@@ -87,10 +87,10 @@ export class VenueInformationPanel {
         aria-labelledby="venue-map-title venue-map-description"
         shape-rendering="crispEdges"
       >
-        <title id="venue-map-title">Pixel-art map to Villa Aurora in Caesarea</title>
+        <title id="venue-map-title">Pixel-art map to Consul House in Jaffa, Tel Aviv</title>
         <desc id="venue-map-description">
-          An illustrative seaside map with a road leading past parking to the venue,
-          its courtyard, chuppah, gardens, and the entrance marker.
+          An illustrative Old Jaffa seaside map with HaZorfim Street leading past parking to Consul House,
+          its arched courtyard, rooftop chuppah, and entrance marker.
         </desc>
 
         <rect width="120" height="90" fill="#0b1024" />
@@ -179,9 +179,9 @@ export class VenueInformationPanel {
         </g>
 
         <text x="8" y="84" class="venue-map__label">SEA</text>
-        <text x="52" y="38" class="venue-map__label" text-anchor="middle">ENTRANCE</text>
+        <text x="52" y="38" class="venue-map__label" text-anchor="middle">HAZORFIM 15</text>
         <text x="35" y="77" class="venue-map__label">PARKING</text>
-        <text x="83" y="15" class="venue-map__label" text-anchor="middle">VILLA AURORA</text>
+        <text x="83" y="15" class="venue-map__label" text-anchor="middle">CONSUL HOUSE</text>
 
         <g transform="translate(104 8)" fill="#cbb99e">
           <rect x="0" y="0" width="2" height="9" />

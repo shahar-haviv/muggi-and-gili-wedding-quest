@@ -1,9 +1,9 @@
 {
-  "name": "shahar-and-almog-wedding-quest",
+  "name": "muggi-and-gili-wedding-quest",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "A mobile-first, 8-bit wedding invitation, timeline, and RSVP experience for Shahar & Almog.",
+  "description": "A mobile-first, 8-bit wedding invitation, timeline, and RSVP experience for Muggi & Gili.",
   "engines": {
     "node": ">=20.19.0"
   },
@@ -18,7 +18,7 @@
     "threejs",
     "pixel-art"
   ],
-  "author": "Shahar & Almog",
+  "author": "Muggi & Gili",
   "license": "MIT",
   "dependencies": {
     "three": "^0.187.0"

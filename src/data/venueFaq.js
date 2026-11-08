@@ -1,5 +1,5 @@
 /**
- * Practical answers for guests who have never braved Caesarea traffic.
+ * Practical answers for guests heading to Old Jaffa.
  * Each item becomes a native disclosure button in the venue section.
  */
 export const VENUE_FAQ_ITEMS = Object.freeze([
@@ -7,19 +7,19 @@ export const VENUE_FAQ_ITEMS = Object.freeze([
     id: 'arrival',
     question: 'WHAT TIME SHOULD I ARRIVE?',
     answer:
-      'Gates open at 18:30. Aim to be seated under the chuppah by 19:05 so the ceremony can begin at 19:12 sharp. Welcome drinks and lawn games will keep you company until then.',
+      'Doors open at 18:00 for the greeting and welcome drinks. Aim to be seated under the chuppah by 18:50 so the ceremony can begin at 19:00 sharp, followed by the feast at 20:00.',
   },
   {
     id: 'parking',
     question: 'IS THERE PARKING AT THE VENUE?',
     answer:
-      'Yes — free parking is available beside the garden entrance. Follow the lantern-lit path and the parking signs. If you can carpool, even better: the planet and the dance floor both approve.',
+      'Yes — HaZorfim Parking Lot (Old Jaffa East, HaZorfim 15A) is located right next door to Consul House and is open 24/7. Additional public parking lots are a short walk away near the Jaffa Flea Market and along the promenade.',
   },
   {
     id: 'dress-code',
     question: 'WHAT SHOULD I WEAR?',
     answer:
-      'Garden festive: sunset colours, linen, flowy fabrics, and shoes that can handle grass, gravel, and a serious dance floor. There is no need to wear a suit of armour — unless it is a very stylish suit of armour.',
+      'Jaffa festive: sunset colours, breezy fabrics, and shoes that can handle Old Jaffa stone and a serious dance floor. There is no need to wear a suit of armour — unless it is a very stylish suit of armour.',
   },
   {
     id: 'children',
