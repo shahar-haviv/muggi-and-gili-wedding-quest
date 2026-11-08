@@ -1,0 +1,574 @@
+/* --------------------------------------------------
+   Header Quest Route Switcher Tabs (iPhone-first)
+-------------------------------------------------- */
+.site-header__top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: 46px;
+}
+
+.quest-route-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 5px;
+  width: min(100%, var(--content-max-width));
+  margin-inline: auto;
+  padding-bottom: 6px;
+}
+
+.quest-route-tab {
+  --tab-accent: var(--color-gold);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 34px;
+  padding: 4px 3px;
+  border: 2px solid var(--color-border);
+  background: rgb(14 9 30 / 88%);
+  box-shadow: 2px 2px 0 rgb(0 0 0 / 45%);
+  color: var(--color-cream-dim);
+  font-family: var(--font-display);
+  text-align: center;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    border-color var(--transition-snap),
+    background-color var(--transition-snap),
+    color var(--transition-snap),
+    transform var(--transition-snap);
+}
+
+.quest-route-tab--main {
+  --tab-accent: var(--color-lilac);
+}
+
+.quest-route-tab--mint {
+  --tab-accent: var(--color-mint);
+}
+
+.quest-route-tab--rose {
+  --tab-accent: var(--color-rose);
+}
+
+.quest-route-tab--gold {
+  --tab-accent: var(--color-gold);
+}
+
+.quest-route-tab:hover {
+  border-color: var(--tab-accent);
+  color: var(--color-cream);
+}
+
+.quest-route-tab.is-active {
+  border-color: var(--tab-accent);
+  background: var(--tab-accent);
+  box-shadow: 2px 2px 0 rgb(0 0 0 / 60%);
+  color: var(--color-ink);
+}
+
+.quest-route-tab__badge {
+  font-size: clamp(0.28rem, 0.9vw, 0.36rem);
+  letter-spacing: 0.04em;
+  line-height: 1.2;
+  opacity: 0.82;
+}
+
+.quest-route-tab__label {
+  max-width: 100%;
+  overflow: hidden;
+  font-size: clamp(0.32rem, 1.15vw, 0.44rem);
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (min-width: 720px) {
+  .quest-route-tab {
+    flex-direction: row;
+    gap: 8px;
+    min-height: 36px;
+    padding: 6px 10px;
+  }
+}
+
+/* --------------------------------------------------
+   Main Page Side-Quest Portal Cards
+-------------------------------------------------- */
+.content-section--side-quests-portal {
+  border-bottom: 3px solid var(--color-border);
+  background:
+    radial-gradient(circle at 20% 20%, rgb(113 224 192 / 9%), transparent 46%),
+    radial-gradient(circle at 80% 75%, rgb(242 121 155 / 10%), transparent 50%),
+    linear-gradient(180deg, #100824 0%, #190e36 52%, #100824 100%);
+}
+
+.side-quest-portal-grid {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 820px) {
+  .side-quest-portal-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 22px;
+  }
+}
+
+.side-quest-portal-card {
+  --card-accent: var(--color-mint);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(18px, 3vw, 24px);
+  border-color: var(--card-accent);
+}
+
+.side-quest-portal-card--mint {
+  --card-accent: var(--color-mint);
+}
+
+.side-quest-portal-card--rose {
+  --card-accent: var(--color-rose);
+}
+
+.side-quest-portal-card--gold {
+  --card-accent: var(--color-gold);
+}
+
+.side-quest-portal-card__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.side-quest-portal-card__badge {
+  padding: 4px 7px;
+  border: 2px solid var(--color-ink);
+  background: var(--card-accent);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 0.36rem;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+}
+
+.side-quest-portal-card__host {
+  color: var(--color-cream-dim);
+  font-family: var(--font-display);
+  font-size: 0.36rem;
+  letter-spacing: 0.05em;
+}
+
+.side-quest-portal-card__title {
+  margin-bottom: 10px;
+  color: var(--color-cream);
+  font-size: clamp(0.95rem, 2.4vw, 1.22rem);
+  line-height: 1.5;
+  text-shadow: 2px 2px 0 var(--color-ink);
+}
+
+.side-quest-portal-card__copy {
+  margin-bottom: 18px;
+  color: var(--color-cream-dim);
+  font-size: 0.86rem;
+  line-height: 1.7;
+}
+
+.side-quest-portal-card__cta {
+  width: 100%;
+  background: var(--card-accent);
+}
+
+/* --------------------------------------------------
+   Dedicated Side Quest Page (/side-quest/*)
+-------------------------------------------------- */
+.side-quest-page {
+  --quest-accent: var(--color-mint);
+  --quest-accent-deep: #1e5c4e;
+  min-height: 100svh;
+}
+
+.side-quest-page--mint {
+  --quest-accent: var(--color-mint);
+  --quest-accent-deep: #1e5c4e;
+}
+
+.side-quest-page--rose {
+  --quest-accent: var(--color-rose);
+  --quest-accent-deep: var(--color-rose-deep);
+}
+
+.side-quest-page--gold {
+  --quest-accent: var(--color-gold);
+  --quest-accent-deep: var(--color-gold-deep);
+}
+
+.side-quest-hero {
+  position: relative;
+  padding: calc(var(--header-height) + 28px) clamp(16px, 5vw, 40px) 48px;
+  border-bottom: 3px solid var(--quest-accent);
+  background:
+    radial-gradient(ellipse at 50% 18%, rgb(242 121 155 / 18%), transparent 60%),
+    linear-gradient(180deg, #0b0618 0%, #1d113a 60%, #100923 100%);
+}
+
+.side-quest-hero__scanlines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.22;
+  background: repeating-linear-gradient(
+    180deg,
+    rgb(0 0 0 / 26%) 0px,
+    rgb(0 0 0 / 26%) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.side-quest-hero__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.side-quest-hero__top-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.side-quest-switcher {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.side-quest-switcher__pill {
+  padding: 7px 10px;
+  border: 2px solid var(--color-border);
+  background: rgb(11 6 24 / 85%);
+  color: var(--color-cream-dim);
+  font-family: var(--font-display);
+  font-size: clamp(0.34rem, 1.2vw, 0.42rem);
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.side-quest-switcher__pill.is-active {
+  border-color: var(--quest-accent);
+  background: var(--quest-accent);
+  color: var(--color-ink);
+}
+
+.side-quest-hero__banner {
+  padding: clamp(20px, 4vw, 36px);
+  border-color: var(--quest-accent);
+  box-shadow:
+    inset 0 0 0 3px var(--color-ink),
+    8px 8px 0 var(--quest-accent-deep);
+}
+
+.side-quest-hero__eyebrow-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.side-quest-hero__badge {
+  padding: 5px 8px;
+  border: 2px solid var(--color-ink);
+  background: var(--quest-accent);
+  color: var(--color-ink);
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  letter-spacing: 0.06em;
+}
+
+.side-quest-hero__eyebrow {
+  color: var(--quest-accent);
+  font-family: var(--font-display);
+  font-size: clamp(0.4rem, 1.4vw, 0.52rem);
+  letter-spacing: 0.1em;
+}
+
+.side-quest-hero__title {
+  margin-bottom: 14px;
+  overflow-wrap: anywhere;
+  color: var(--color-cream);
+  font-size: clamp(1.02rem, 4.8vw, 2.65rem);
+  line-height: 1.38;
+  text-shadow:
+    3px 3px 0 var(--quest-accent-deep),
+    6px 6px 0 rgb(0 0 0 / 50%);
+}
+
+.side-quest-hero__subtitle {
+  max-width: 680px;
+  margin-bottom: 24px;
+  color: var(--color-cream-dim);
+  font-size: clamp(0.92rem, 2vw, 1.08rem);
+  line-height: 1.75;
+}
+
+.side-quest-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+@media (min-width: 760px) {
+  .side-quest-stats-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+}
+
+.side-quest-stat {
+  padding: 12px 10px;
+  border: 2px solid var(--color-border);
+  background: #0b0618;
+  box-shadow: 3px 3px 0 rgb(0 0 0 / 35%);
+}
+
+.side-quest-stat__label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--quest-accent);
+  font-family: var(--font-display);
+  font-size: 0.36rem;
+  letter-spacing: 0.08em;
+}
+
+.side-quest-stat__value {
+  display: block;
+  overflow-wrap: anywhere;
+  color: var(--color-cream);
+  font-family: var(--font-display);
+  font-size: clamp(0.38rem, 1.4vw, 0.52rem);
+  line-height: 1.5;
+}
+
+.side-quest-body {
+  padding-top: clamp(44px, 7vw, 80px);
+}
+
+.side-quest-grid {
+  display: grid;
+  gap: 22px;
+  margin-bottom: clamp(40px, 6vw, 68px);
+}
+
+@media (min-width: 840px) {
+  .side-quest-grid {
+    grid-template-columns: 1.25fr 0.75fr;
+    gap: 28px;
+  }
+}
+
+.side-quest-panel {
+  padding: clamp(20px, 3.5vw, 30px);
+  border-color: var(--color-border);
+}
+
+.side-quest-panel__title {
+  margin-bottom: 14px;
+  color: var(--color-cream);
+  font-size: clamp(1.05rem, 3vw, 1.45rem);
+  text-shadow: 2px 2px 0 var(--quest-accent-deep);
+}
+
+.side-quest-panel__copy {
+  margin-bottom: 20px;
+  color: var(--color-cream-dim);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.side-quest-design-callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px;
+  border: 2px dashed var(--quest-accent);
+  background: rgb(8 4 16 / 65%);
+}
+
+.side-quest-design-callout p {
+  margin: 0;
+  color: var(--color-cream);
+  font-size: 0.84rem;
+  line-height: 1.65;
+}
+
+.side-quest-loadout-list {
+  display: grid;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.side-quest-loadout-list li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--color-cream);
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+.side-quest-loadout-list li::before {
+  position: absolute;
+  top: 0.5em;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  background: var(--quest-accent);
+  content: '';
+}
+
+.side-quest-loadout-dress {
+  margin: 0;
+  padding-top: 12px;
+  border-top: 2px dashed rgb(75 47 120 / 70%);
+  color: var(--color-cream-dim);
+  font-size: 0.82rem;
+}
+
+.side-quest-loadout-dress span {
+  color: var(--quest-accent);
+  font-family: var(--font-display);
+  font-size: 0.4rem;
+  margin-right: 6px;
+}
+
+.side-quest-checkpoints {
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+
+.side-quest-checkpoint-grid {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 820px) {
+  .side-quest-checkpoint-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+  }
+}
+
+.side-quest-checkpoint-card {
+  padding: 20px;
+  border-color: var(--color-border);
+}
+
+.side-quest-checkpoint-card__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 12px;
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+}
+
+.side-quest-checkpoint-card__step {
+  color: var(--quest-accent);
+}
+
+.side-quest-checkpoint-card__time {
+  color: var(--color-gold);
+}
+
+.side-quest-checkpoint-card__title {
+  margin-bottom: 6px;
+  color: var(--color-cream);
+  font-size: 1rem;
+}
+
+.side-quest-checkpoint-card__location {
+  margin-bottom: 10px;
+  color: var(--quest-accent);
+  font-family: var(--font-display);
+  font-size: 0.38rem;
+  letter-spacing: 0.05em;
+}
+
+.side-quest-checkpoint-card__summary {
+  margin: 0;
+  color: var(--color-cream-dim);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
+
+.side-quest-footer-cta {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: clamp(20px, 4vw, 30px);
+  border-color: var(--color-gold);
+}
+
+@media (min-width: 760px) {
+  .side-quest-footer-cta {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.side-quest-footer-cta__eyebrow {
+  margin-bottom: 8px;
+  color: var(--color-gold);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.1em;
+}
+
+.side-quest-footer-cta__title {
+  margin-bottom: 8px;
+  color: var(--color-cream);
+  font-size: clamp(0.95rem, 2.5vw, 1.3rem);
+}
+
+.side-quest-footer-cta__copy {
+  margin: 0;
+  color: var(--color-cream-dim);
+  font-size: 0.86rem;
+}
+
+.site-footer__routes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px 18px;
+  margin-bottom: 22px;
+}
+
+.site-footer__routes a {
+  color: var(--color-cream-dim);
+  font-family: var(--font-display);
+  font-size: 0.42rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+}
+
+.site-footer__routes a.is-active,
+.site-footer__routes a:hover {
+  color: var(--color-gold);
+}

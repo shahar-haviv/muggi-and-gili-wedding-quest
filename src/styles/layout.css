@@ -6,12 +6,12 @@
   inset: 0 0 auto;
   z-index: 60;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  height: var(--header-height);
-  padding: 0 clamp(14px, 4vw, 32px);
-  background: linear-gradient(180deg, rgb(7 3 18 / 92%) 0%, rgb(7 3 18 / 58%) 72%, transparent 100%);
+  flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  min-height: var(--header-height);
+  padding: env(safe-area-inset-top, 0px) clamp(10px, 3.5vw, 32px) 4px;
+  background: linear-gradient(180deg, rgb(7 3 18 / 95%) 0%, rgb(7 3 18 / 78%) 78%, transparent 100%);
   transition:
     background-color 180ms linear,
     border-color 180ms linear,
