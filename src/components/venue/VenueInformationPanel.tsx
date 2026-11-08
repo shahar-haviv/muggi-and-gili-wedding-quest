@@ -68,17 +68,7 @@ export function VenueInformationPanel({ details }: VenueInformationPanelProps) {
             </div>
             <div className="venue-fact">
               <dt>PARKING</dt>
-              <dd>
-                {details.venue.parkingNote}{' '}
-                <a
-                  href={details.venue.parkingMapsUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="venue-fact__inline-link"
-                >
-                  Open {details.venue.parkingName} in Maps ↗
-                </a>
-              </dd>
+              <dd>{details.venue.parkingNote}</dd>
             </div>
             <div className="venue-fact">
               <dt>ACCESSIBILITY</dt>
