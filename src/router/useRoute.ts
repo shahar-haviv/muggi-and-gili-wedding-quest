@@ -7,21 +7,19 @@ import type { AppRoutePath, SideQuestSlug } from '../types/wedding.ts';
  * - '/side-quest/bachelor'
  * - '/side-quest/bachelorette'
  * - '/side-quest/united'
+ *
+ * Side quests are unlisted and only resolve when their direct URL is visited.
  */
 export function resolveAppRoute(rawPathname: string): AppRoutePath {
   const cleaned = rawPathname.replace(/\/+$/, '').toLowerCase();
 
-  if (cleaned.endsWith('/side-quest/bachelor') || cleaned === '/bachelor') {
+  if (cleaned.endsWith('/side-quest/bachelor')) {
     return '/side-quest/bachelor';
   }
-  if (cleaned.endsWith('/side-quest/bachelorette') || cleaned === '/bachelorette') {
+  if (cleaned.endsWith('/side-quest/bachelorette')) {
     return '/side-quest/bachelorette';
   }
-  if (
-    cleaned.endsWith('/side-quest/united') ||
-    cleaned.endsWith('/side-quest') ||
-    cleaned === '/united'
-  ) {
+  if (cleaned.endsWith('/side-quest/united')) {
     return '/side-quest/united';
   }
 

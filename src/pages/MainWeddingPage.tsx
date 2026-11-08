@@ -1,7 +1,5 @@
 import { useState } from 'preact/hooks';
-import { SIDE_QUEST_LIST } from '../data/sideQuests.ts';
 import type {
-  AppRoutePath,
   FaqItem,
   RsvpResponse,
   RsvpSaveResult,
@@ -20,7 +18,6 @@ interface MainWeddingPageProps {
   readonly details: WeddingDetails;
   readonly timelineStages: readonly TimelineStage[];
   readonly faqItems: readonly FaqItem[];
-  readonly onNavigate: (target: AppRoutePath, options?: { readonly hash?: string }) => void;
   readonly onCelebrationSound: () => void;
   readonly onJingleSound: () => void;
   readonly onStageAdvanceSound: () => void;
@@ -29,12 +26,12 @@ interface MainWeddingPageProps {
 
 /**
  * Composes the main wedding invitation experience at `/`.
+ * Unlisted side quests are kept completely separate and are not linked here.
  */
 export function MainWeddingPage({
   details,
   timelineStages,
   faqItems,
-  onNavigate,
   onCelebrationSound,
   onJingleSound,
   onStageAdvanceSound,
@@ -65,49 +62,6 @@ export function MainWeddingPage({
         stages={timelineStages}
         onStageChangeSound={onStageAdvanceSound}
       />
-
-      <section
-        className="content-section content-section--side-quests-portal"
-        id="side-quests"
-        aria-labelledby="side-quests-portal-heading"
-      >
-        <div className="content-section__inner">
-          <header className="section-heading">
-            <p className="section-heading__eyebrow">BONUS STAGES UNLOCKED</p>
-            <h2 id="side-quests-portal-heading">PRE-WEDDING SIDE QUESTS</h2>
-            <p className="section-heading__intro">
-              Before we meet at Consul House on 19 May 2027, choose your bonus stage:
-              the Bachelor quest, the Bachelorette quest, or the full-crew United Party.
-            </p>
-          </header>
-
-          <div className="side-quest-portal-grid">
-            {SIDE_QUEST_LIST.map((quest) => (
-              <article
-                key={quest.slug}
-                className={`side-quest-portal-card side-quest-portal-card--${quest.accent} pixel-frame`}
-              >
-                <div className="side-quest-portal-card__top">
-                  <span className="side-quest-portal-card__badge">{quest.tabBadge}</span>
-                  <span className="side-quest-portal-card__host">{quest.hostLabel}</span>
-                </div>
-                <h3 className="side-quest-portal-card__title">{quest.title}</h3>
-                <p className="side-quest-portal-card__copy">{quest.subtitle}</p>
-                <a
-                  href={quest.path}
-                  className="pixel-button pixel-button--tiny side-quest-portal-card__cta"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    onNavigate(quest.path);
-                  }}
-                >
-                  ENTER {quest.shortLabel} &gt;
-                </a>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <section
         className="content-section content-section--venue"

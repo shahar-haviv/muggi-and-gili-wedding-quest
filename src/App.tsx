@@ -12,7 +12,7 @@ import { useRoute } from './router/useRoute.ts';
 import { SoundPreferenceStore } from './services/SoundPreferenceStore.ts';
 
 /**
- * Root application shell managing audio preference state, client-side routing,
+ * Root application shell managing audio preference state, URL-based page resolution,
  * and shared layout chrome.
  */
 export function App() {
@@ -27,7 +27,7 @@ export function App() {
     soundEngine.playStageAdvance();
   }, [soundEngine]);
 
-  const { route, sideQuestSlug, navigate } = useRoute(handleRouteChanged);
+  const { sideQuestSlug } = useRoute(handleRouteChanged);
 
   const handleToggleSound = useCallback(() => {
     const nextState = !soundEngine.enabled;
@@ -70,21 +70,19 @@ export function App() {
 
       <SiteHeader
         details={WEDDING_DETAILS}
-        currentRoute={route}
-        onNavigate={navigate}
+        activeSideQuest={activeSideQuest}
         isSoundEnabled={isSoundEnabled}
         onToggleSound={handleToggleSound}
       />
 
       <main id="main-content">
         {activeSideQuest ? (
-          <SideQuestPage quest={activeSideQuest} onNavigate={navigate} />
+          <SideQuestPage quest={activeSideQuest} />
         ) : (
           <MainWeddingPage
             details={WEDDING_DETAILS}
             timelineStages={WEDDING_TIMELINE_STAGES}
             faqItems={VENUE_FAQ_ITEMS}
-            onNavigate={navigate}
             onCelebrationSound={handleCelebrationSound}
             onJingleSound={handleJingleSound}
             onStageAdvanceSound={handleStageAdvanceSound}
@@ -93,11 +91,7 @@ export function App() {
         )}
       </main>
 
-      <SiteFooter
-        details={WEDDING_DETAILS}
-        currentRoute={route}
-        onNavigate={navigate}
-      />
+      <SiteFooter details={WEDDING_DETAILS} activeSideQuest={activeSideQuest} />
     </>
   );
 }

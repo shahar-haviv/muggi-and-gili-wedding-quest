@@ -1,60 +1,27 @@
-import { SIDE_QUEST_LIST } from '../data/sideQuests.ts';
-import type { AppRoutePath, SideQuestConfig } from '../types/wedding.ts';
+import type { SideQuestConfig } from '../types/wedding.ts';
 import { PixelHeartIcon } from '../components/common/PixelHeartIcon.tsx';
 
 interface SideQuestPageProps {
   readonly quest: SideQuestConfig;
-  readonly onNavigate: (target: AppRoutePath, options?: { readonly hash?: string }) => void;
 }
 
 /**
- * Dedicated route view for `/side-quest/bachelor`, `/side-quest/bachelorette`,
- * and `/side-quest/united`.
+ * Standalone secret page for `/side-quest/bachelor`, `/side-quest/bachelorette`,
+ * or `/side-quest/united`. Accessible only via direct URL without cross-links
+ * to the other side quests.
  */
-export function SideQuestPage({ quest, onNavigate }: SideQuestPageProps) {
+export function SideQuestPage({ quest }: SideQuestPageProps) {
   return (
-    <div className={`side-quest-page side-quest-page--${quest.accent}`}>
+    <div
+      className={`side-quest-page side-quest-page--${quest.accent}`}
+      id="side-quest-top"
+    >
       <section className="side-quest-hero" aria-labelledby="side-quest-title">
         <div className="side-quest-hero__scanlines" aria-hidden="true" />
         <div className="content-section__inner side-quest-hero__inner">
-          <div className="side-quest-hero__top-bar">
-            <a
-              href="/"
-              className="pixel-button pixel-button--tiny pixel-button--ghost"
-              onClick={(e) => {
-                e.preventDefault();
-                onNavigate('/');
-              }}
-            >
-              &lt; MAIN WEDDING QUEST
-            </a>
-
-            <div className="side-quest-switcher" role="navigation" aria-label="Switch side quest">
-              {SIDE_QUEST_LIST.map((item) => {
-                const isActive = item.slug === quest.slug;
-                return (
-                  <a
-                    key={item.slug}
-                    href={item.path}
-                    className={`side-quest-switcher__pill side-quest-switcher__pill--${item.accent}${
-                      isActive ? ' is-active' : ''
-                    }`}
-                    aria-current={isActive ? 'page' : undefined}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      onNavigate(item.path);
-                    }}
-                  >
-                    {item.shortLabel}
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-
           <div className="side-quest-hero__banner pixel-frame">
             <div className="side-quest-hero__eyebrow-row">
-              <span className="side-quest-hero__badge">{quest.tabBadge}</span>
+              <span className="side-quest-hero__badge">SECRET STAGE · {quest.tabBadge}</span>
               <span className="side-quest-hero__eyebrow">{quest.eyebrow}</span>
             </div>
 
@@ -88,7 +55,7 @@ export function SideQuestPage({ quest, onNavigate }: SideQuestPageProps) {
       <section className="content-section side-quest-body" aria-label="Side quest mission details">
         <div className="content-section__inner">
           <div className="side-quest-grid">
-            <article className="side-quest-panel pixel-frame">
+            <article className="side-quest-panel pixel-frame" id="briefing">
               <p className="section-heading__eyebrow">MISSION BRIEFING</p>
               <h2 className="side-quest-panel__title">ABOUT THIS SIDE QUEST</h2>
               <p className="side-quest-panel__copy">{quest.description}</p>
@@ -99,7 +66,7 @@ export function SideQuestPage({ quest, onNavigate }: SideQuestPageProps) {
               </div>
             </article>
 
-            <aside className="side-quest-panel pixel-frame">
+            <aside className="side-quest-panel pixel-frame" id="loadout">
               <p className="section-heading__eyebrow">INVENTORY</p>
               <h2 className="side-quest-panel__title">REQUIRED LOADOUT</h2>
               <ul className="side-quest-loadout-list">
@@ -113,7 +80,7 @@ export function SideQuestPage({ quest, onNavigate }: SideQuestPageProps) {
             </aside>
           </div>
 
-          <div className="side-quest-checkpoints">
+          <div className="side-quest-checkpoints" id="stages">
             <header className="section-heading">
               <p className="section-heading__eyebrow">STAGE ROUTE</p>
               <h2>SIDE QUEST CHECKPOINTS</h2>
@@ -131,30 +98,6 @@ export function SideQuestPage({ quest, onNavigate }: SideQuestPageProps) {
                   <p className="side-quest-checkpoint-card__summary">{cp.summary}</p>
                 </article>
               ))}
-            </div>
-          </div>
-
-          <div className="side-quest-footer-cta pixel-frame">
-            <div>
-              <p className="side-quest-footer-cta__eyebrow">MAIN EVENT</p>
-              <h3 className="side-quest-footer-cta__title">
-                DON'T FORGET THE FINAL BOSS ON 19 · 05 · 2027
-              </h3>
-              <p className="side-quest-footer-cta__copy">
-                Consul House · HaZorfim 15, Old Jaffa · Greeting 18:00 · Ceremony 19:00 · Feast 20:00
-              </p>
-            </div>
-            <div className="side-quest-footer-cta__actions">
-              <a
-                href="/#rsvp"
-                className="pixel-button pixel-button--primary"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onNavigate('/', { hash: '#rsvp' });
-                }}
-              >
-                MAIN WEDDING RSVP
-              </a>
             </div>
           </div>
         </div>
