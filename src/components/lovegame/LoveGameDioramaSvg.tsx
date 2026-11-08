@@ -1,552 +1,376 @@
+import { useEffect, useRef } from 'preact/hooks';
 import type { LoveGameSceneType } from '../../types/wedding.ts';
 
-interface LoveGameDioramaSvgProps {
+interface LoveGameDioramaProps {
   readonly sceneType: LoveGameSceneType;
-  readonly isActionActive: boolean;
-  readonly onTriggerAction: () => void;
+}
+
+const WIDTH = 160;
+const HEIGHT = 90;
+
+/**
+ * Draws a crisp 1x1 pixel rectangle on the low-res canvas.
+ */
+function px(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+  color: string,
+) {
+  ctx.fillStyle = color;
+  ctx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
 }
 
 /**
- * Reusable pixel-art sprite for Sir Muggi (Knight-Officer in steel & gold pauldrons).
+ * Draws a tiny 5x5 pixel heart.
  */
-function SirMuggiSprite({ x, y, raiseArm = false }: { x: number; y: number; raiseArm?: boolean }) {
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      {/* Officer royal plume */}
-      <rect x="3" y="-3" width="4" height="2" fill="#71e0c0" />
-      <rect x="2" y="-1" width="6" height="2" fill="#ffc857" />
-      {/* Head & face */}
-      <rect x="2" y="1" width="6" height="5" fill="#ffd7b5" />
-      <rect x="2" y="1" width="6" height="1.5" fill="#4a2e1b" />
-      <rect x="6" y="3" width="1" height="1" fill="#08040f" />
-      {/* Knight armor & gold officer pauldrons */}
-      <rect x="0" y="6" width="10" height="3" fill="#ffc857" />
-      <rect x="1" y="7" width="8" height="7" fill="#3a506b" />
-      <rect x="3" y="8" width="4" height="4" fill="#71e0c0" />
-      {/* Raised goblet or sword arm */}
-      {raiseArm ? (
-        <g>
-          <rect x="9" y="3" width="2" height="5" fill="#3a506b" />
-          <rect x="9" y="0" width="3" height="3" fill="#ffc857" />
-        </g>
-      ) : (
-        <rect x="9" y="7" width="2" height="5" fill="#3a506b" />
-      )}
-      {/* Boots */}
-      <rect x="2" y="14" width="2.5" height="4" fill="#1b1136" />
-      <rect x="5.5" y="14" width="2.5" height="4" fill="#1b1136" />
-    </g>
-  );
+function drawTinyHeart(ctx: CanvasRenderingContext2D, x: number, y: number, color = '#f2799b') {
+  px(ctx, x + 1, y, 1, 1, color);
+  px(ctx, x + 3, y, 1, 1, color);
+  px(ctx, x, y + 1, 5, 2, color);
+  px(ctx, x + 1, y + 3, 3, 1, color);
+  px(ctx, x + 2, y + 4, 1, 1, color);
 }
 
 /**
- * Reusable pixel-art sprite for Lady Gili (Royal Recruit / Spellweaver).
+ * Cute minimalist pixel sprite for Sir Muggi (Officer in cloak & gold trim).
  */
-function LadyGiliSprite({ x, y, raiseArm = false }: { x: number; y: number; raiseArm?: boolean }) {
-  return (
-    <g transform={`translate(${x} ${y})`}>
-      {/* Crown / diadem */}
-      <rect x="3" y="-2" width="4" height="2" fill="#ffc857" />
-      {/* Hair & face */}
-      <rect x="1" y="0" width="8" height="6" fill="#5c3118" />
-      <rect x="2" y="1" width="6" height="5" fill="#ffe0c4" />
-      <rect x="3" y="3" width="1" height="1" fill="#08040f" />
-      {/* Medieval tunic & rose cloak */}
-      <rect x="0" y="6" width="10" height="3" fill="#f2799b" />
-      <rect x="1" y="7" width="8" height="7" fill="#b93d68" />
-      <rect x="3" y="8" width="4" height="5" fill="#fff2d2" />
-      {raiseArm ? (
-        <g>
-          <rect x="-1" y="3" width="2" height="5" fill="#f2799b" />
-          <rect x="-2" y="0" width="3" height="3" fill="#ffc857" />
-        </g>
-      ) : (
-        <rect x="-1" y="7" width="2" height="5" fill="#f2799b" />
-      )}
-      {/* Boots */}
-      <rect x="2" y="14" width="2.5" height="4" fill="#24164a" />
-      <rect x="5.5" y="14" width="2.5" height="4" fill="#24164a" />
-    </g>
-  );
+function drawMuggi(ctx: CanvasRenderingContext2D, x: number, y: number, stepFrame: number) {
+  const bob = stepFrame % 2 === 0 ? 0 : -1;
+  // Soft shadow
+  px(ctx, x, y + 11, 6, 1, 'rgba(0,0,0,0.35)');
+  // Boots
+  px(ctx, x + 1, y + 9, 1, 2, '#181028');
+  px(ctx, x + 4, y + 9, 1, 2, '#181028');
+  // Officer tunic & cape
+  px(ctx, x, y + 5 + bob, 6, 4, '#3b5878');
+  px(ctx, x + 1, y + 5 + bob, 4, 1, '#ffc857'); // gold officer collar
+  px(ctx, x + 2, y + 6 + bob, 2, 3, '#71e0c0');
+  // Head
+  px(ctx, x + 1, y + 1 + bob, 4, 4, '#ffd7b5');
+  px(ctx, x + 1, y + bob, 4, 1, '#4a2e1b'); // hair
+  px(ctx, x + 2, y - 1 + bob, 2, 1, '#71e0c0'); // tiny officer plume
+  px(ctx, x + 4, y + 2 + bob, 1, 1, '#181028'); // eye facing right
 }
 
 /**
- * Reusable pixel-art flying dragon with rider.
+ * Cute minimalist pixel sprite for Lady Gili (Recruit / Adventurer).
  */
-function PixelDragonWithRider({
-  x,
-  y,
-  bodyColor,
-  wingColor,
-  riderColor,
-  flip = false,
-  breatheFire = false,
-}: {
-  x: number;
-  y: number;
-  bodyColor: string;
-  wingColor: string;
-  riderColor: string;
-  flip?: boolean;
-  breatheFire?: boolean;
-}) {
-  return (
-    <g
-      transform={`translate(${x} ${y})${flip ? ' scale(-1, 1)' : ''}`}
-      className="love-scene__dragon"
-    >
-      {/* Wing */}
-      <g className="love-scene__dragon-wing">
-        <rect x="10" y="-10" width="14" height="4" fill={wingColor} />
-        <rect x="8" y="-6" width="18" height="6" fill={wingColor} />
-      </g>
-      {/* Tail */}
-      <rect x="-10" y="4" width="10" height="3" fill={bodyColor} />
-      <rect x="-14" y="2" width="5" height="3" fill={bodyColor} />
-      {/* Body */}
-      <rect x="0" y="0" width="24" height="8" fill={bodyColor} />
-      <rect x="4" y="6" width="16" height="3" fill="#ffc857" />
-      {/* Neck & Head */}
-      <rect x="22" y="-5" width="6" height="7" fill={bodyColor} />
-      <rect x="26" y="-7" width="9" height="5" fill={bodyColor} />
-      <rect x="25" y="-9" width="3" height="2" fill="#ffc857" />
-      <rect x="31" y="-6" width="1.5" height="1.5" fill="#fff2d2" />
-      {/* Rider on saddle */}
-      <rect x="11" y="-8" width="5" height="5" fill={riderColor} />
-      <rect x="11" y="-11" width="5" height="3" fill="#ffd7b5" />
-      <rect x="11" y="-13" width="5" height="2" fill="#ffc857" />
-      {/* Fire breath when action active */}
-      {breatheFire && (
-        <g className="love-scene__fire">
-          <rect x="36" y="-6" width="6" height="3" fill="#ffc857" />
-          <rect x="42" y="-8" width="8" height="6" fill="#ff7196" />
-          <rect x="50" y="-9" width="6" height="8" fill="#ffc857" />
-        </g>
-      )}
-    </g>
-  );
+function drawGili(ctx: CanvasRenderingContext2D, x: number, y: number, stepFrame: number) {
+  const bob = (stepFrame + 1) % 2 === 0 ? 0 : -1;
+  // Soft shadow
+  px(ctx, x, y + 11, 6, 1, 'rgba(0,0,0,0.35)');
+  // Boots
+  px(ctx, x + 1, y + 9, 1, 2, '#181028');
+  px(ctx, x + 4, y + 9, 1, 2, '#181028');
+  // Tunic & dress
+  px(ctx, x + 1, y + 5 + bob, 4, 4, '#d95b82');
+  px(ctx, x + 2, y + 5 + bob, 2, 3, '#fff2d2');
+  // Long hair & head
+  px(ctx, x + 1, y + bob, 4, 5, '#59301a');
+  px(ctx, x + 1, y + 1 + bob, 3, 4, '#ffe0c4');
+  px(ctx, x + 2, y - 1 + bob, 2, 1, '#ffc857'); // tiny gold circlet
+  px(ctx, x + 1, y + 2 + bob, 1, 1, '#181028'); // eye facing left
 }
 
 /**
- * Pixel heart particle cluster when the player triggers a stage action.
+ * Graceful, delicate pixel dragon with rider silhouette.
  */
-function CelebrationHearts({ x, y }: { x: number; y: number }) {
-  return (
-    <g transform={`translate(${x} ${y})`} className="love-scene__hearts">
-      <g fill="#f2799b">
-        <rect x="1" y="0" width="2" height="1" />
-        <rect x="5" y="0" width="2" height="1" />
-        <rect x="0" y="1" width="8" height="2" />
-        <rect x="1" y="3" width="6" height="1" />
-        <rect x="2" y="4" width="4" height="1" />
-        <rect x="3" y="5" width="2" height="1" />
-      </g>
-      <g fill="#ffc857" transform="translate(-16 -6)">
-        <rect x="1" y="0" width="2" height="1" />
-        <rect x="5" y="0" width="2" height="1" />
-        <rect x="0" y="1" width="8" height="2" />
-        <rect x="1" y="3" width="6" height="1" />
-        <rect x="2" y="4" width="4" height="1" />
-        <rect x="3" y="5" width="2" height="1" />
-      </g>
-      <g fill="#71e0c0" transform="translate(16 -5)">
-        <rect x="1" y="0" width="2" height="1" />
-        <rect x="5" y="0" width="2" height="1" />
-        <rect x="0" y="1" width="8" height="2" />
-        <rect x="1" y="3" width="6" height="1" />
-        <rect x="2" y="4" width="4" height="1" />
-        <rect x="3" y="5" width="2" height="1" />
-      </g>
-    </g>
-  );
+function drawDragon(
+  ctx: CanvasRenderingContext2D,
+  x: number,
+  y: number,
+  bodyColor: string,
+  wingColor: string,
+  riderColor: string,
+  wingUp: boolean,
+) {
+  // Tail
+  px(ctx, x - 6, y + 2, 3, 1, bodyColor);
+  px(ctx, x - 3, y + 1, 3, 2, bodyColor);
+  // Body
+  px(ctx, x, y, 10, 4, bodyColor);
+  px(ctx, x + 2, y + 3, 6, 1, '#ffc857');
+  // Neck & Head
+  px(ctx, x + 9, y - 2, 3, 3, bodyColor);
+  px(ctx, x + 11, y - 3, 4, 2, bodyColor);
+  px(ctx, x + 10, y - 4, 1, 1, '#ffc857'); // horn
+  // Rider
+  px(ctx, x + 4, y - 3, 2, 3, riderColor);
+  px(ctx, x + 4, y - 4, 2, 1, '#ffd7b5');
+  // Wing
+  if (wingUp) {
+    px(ctx, x + 3, y - 6, 5, 3, wingColor);
+    px(ctx, x + 2, y - 3, 6, 3, wingColor);
+  } else {
+    px(ctx, x + 3, y + 2, 6, 4, wingColor);
+  }
 }
 
 /**
- * Single-responsibility pixel-art medieval scene renderer for all 7 chapters
- * of Muggi & Gili's Love Game.
+ * Draws a banded dusk sky with gentle twinkling stars.
  */
-export function LoveGameDioramaSvg({
-  sceneType,
-  isActionActive,
-  onTriggerAction,
-}: LoveGameDioramaSvgProps) {
+function drawMellowSky(ctx: CanvasRenderingContext2D, t: number, warmHorizon = false) {
+  const bands = warmHorizon
+    ? ['#0d081c', '#160f2e', '#231742', '#352157', '#4d2b63']
+    : ['#0b0717', '#120c26', '#1b1336', '#251a46', '#312257'];
+
+  const bandHeight = Math.ceil(HEIGHT / bands.length);
+  bands.forEach((color, idx) => {
+    px(ctx, 0, idx * bandHeight, WIDTH, bandHeight, color);
+  });
+
+  // Quiet stars
+  const stars = [
+    [18, 10],
+    [42, 16],
+    [74, 8],
+    [108, 14],
+    [138, 11],
+    [28, 26],
+    [124, 24],
+  ];
+  stars.forEach(([sx, sy], i) => {
+    const twinkle = Math.sin(t * 1.8 + i * 1.7) > 0.3;
+    px(ctx, sx, sy, 1, 1, twinkle ? '#fff2d2' : '#6e5b8c');
+  });
+}
+
+/**
+ * Draws a medieval castle silhouette with warm glowing windows.
+ */
+function drawCastle(
+  ctx: CanvasRenderingContext2D,
+  centerX: number,
+  baseY: number,
+  variant: 'north' | 'king-george' | 'masaryk',
+  t: number,
+) {
+  const stoneMain = variant === 'north' ? '#2c2247' : variant === 'king-george' ? '#291c45' : '#301d4a';
+  const stoneTrim = variant === 'north' ? '#433569' : variant === 'king-george' ? '#4a3270' : '#4f306e';
+  const roofColor = variant === 'north' ? '#529c89' : variant === 'king-george' ? '#b89cff' : '#d95b82';
+
+  // Main keep body
+  px(ctx, centerX - 24, baseY - 28, 48, 28, stoneMain);
+  px(ctx, centerX - 24, baseY - 28, 48, 2, stoneTrim);
+
+  // Left & Right towers
+  px(ctx, centerX - 32, baseY - 38, 12, 38, stoneTrim);
+  px(ctx, centerX + 20, baseY - 38, 12, 38, stoneTrim);
+
+  if (variant === 'north') {
+    // Flat coastal battlements + tiny waving flag
+    for (let cx = -32; cx <= -22; cx += 4) px(ctx, centerX + cx, baseY - 40, 2, 2, stoneTrim);
+    for (let cx = 20; cx <= 30; cx += 4) px(ctx, centerX + cx, baseY - 40, 2, 2, stoneTrim);
+    px(ctx, centerX, baseY - 38, 1, 10, '#cbb99e');
+    const flagWave = Math.sin(t * 3) > 0 ? 0 : 1;
+    px(ctx, centerX + 1, baseY - 38 + flagWave, 6, 4, '#71e0c0');
+  } else if (variant === 'king-george') {
+    // Central royal tower + golden crown spire
+    px(ctx, centerX - 10, baseY - 44, 20, 16, stoneTrim);
+    px(ctx, centerX - 6, baseY - 47, 2, 3, '#ffc857');
+    px(ctx, centerX - 1, baseY - 49, 2, 5, '#ffc857');
+    px(ctx, centerX + 4, baseY - 47, 2, 3, '#ffc857');
+  } else {
+    // Pointed fairy-tale roofs on Masaryk Castle
+    for (let r = 0; r < 6; r++) {
+      px(ctx, centerX - 32 + r, baseY - 39 - r, 12 - r * 2, 1, roofColor);
+      px(ctx, centerX + 20 + r, baseY - 39 - r, 12 - r * 2, 1, roofColor);
+    }
+  }
+
+  // Warm glowing windows
+  const glow = Math.sin(t * 2) > 0 ? '#ffc857' : '#ffdb85';
+  px(ctx, centerX - 14, baseY - 20, 4, 6, glow);
+  px(ctx, centerX - 2, baseY - 20, 4, 6, glow);
+  px(ctx, centerX + 10, baseY - 20, 4, 6, glow);
+  px(ctx, centerX - 27, baseY - 30, 3, 5, glow);
+  px(ctx, centerX + 24, baseY - 30, 3, 5, glow);
+
+  // Arched wooden doorway
+  px(ctx, centerX - 4, baseY - 10, 8, 10, '#160d29');
+  px(ctx, centerX - 3, baseY - 11, 6, 1, '#160d29');
+}
+
+/**
+ * Cozy, low-res (160x90) pixel-art vignette canvas for "Play the Love Game".
+ */
+export function LoveGameDioramaSvg({ sceneType }: LoveGameDioramaProps) {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return undefined;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return undefined;
+
+    let rafId = 0;
+    let lastFrameTime = 0;
+
+    const renderFrame = (nowMs: number) => {
+      rafId = window.requestAnimationFrame(renderFrame);
+      // Cap at a cozy 10fps so pixel movements feel calm and deliberate
+      if (nowMs - lastFrameTime < 100) return;
+      lastFrameTime = nowMs;
+
+      const t = nowMs * 0.001;
+      const stepFrame = Math.floor(t * 1.6);
+      const heartBob = Math.floor(Math.sin(t * 2.2) * 1.5);
+
+      ctx.clearRect(0, 0, WIDTH, HEIGHT);
+
+      if (sceneType === 'tavern-feast') {
+        // Cozy medieval stone hall interior
+        drawMellowSky(ctx, t, true);
+        // Stone wall & arched windows
+        px(ctx, 16, 12, 128, 56, '#1e1433');
+        px(ctx, 16, 12, 128, 2, '#382659');
+        // Three arched night windows looking out at stars
+        [40, 74, 108].forEach((wx) => {
+          px(ctx, wx, 22, 12, 20, '#0d081c');
+          px(ctx, wx + 2, 20, 8, 2, '#0d081c');
+          px(ctx, wx, 42, 12, 1, '#4b3570');
+        });
+        // Warm overhead garland lights
+        for (let lx = 26; lx <= 134; lx += 12) {
+          const ly = 17 + (lx % 24 === 0 ? 1 : 2);
+          px(ctx, lx, ly, 2, 2, (lx + stepFrame) % 3 === 0 ? '#ffd97d' : '#ffc857');
+        }
+        // Wooden floor
+        px(ctx, 0, 68, WIDTH, 22, '#150d24');
+        px(ctx, 12, 68, 136, 2, '#2d1d47');
+        // Long wooden feast table with two golden goblets
+        px(ctx, 48, 63, 64, 3, '#7a4e2d');
+        px(ctx, 54, 66, 3, 5, '#52321b');
+        px(ctx, 103, 66, 3, 5, '#52321b');
+        px(ctx, 73, 60, 2, 3, '#ffc857');
+        px(ctx, 85, 60, 2, 3, '#ffc857');
+
+        // Officer Muggi & Recruit Gili meeting across the table
+        drawMuggi(ctx, 64, 57, stepFrame);
+        drawGili(ctx, 90, 57, stepFrame);
+        drawTinyHeart(ctx, 78, 48 + heartBob);
+      } else if (sceneType === 'first-alliance') {
+        drawMellowSky(ctx, t, false);
+        // Crescent moon
+        px(ctx, 126, 14, 7, 7, '#ffe3a8');
+        px(ctx, 129, 14, 5, 5, '#120c26');
+        // Soft distant hills
+        px(ctx, 0, 58, WIDTH, 12, '#192928');
+        px(ctx, 20, 54, 50, 4, '#192928');
+        px(ctx, 95, 55, 45, 3, '#192928');
+        // Foreground meadow & path
+        px(ctx, 0, 66, WIDTH, 24, '#13201e');
+        px(ctx, 0, 71, WIDTH, 6, '#2b2140');
+        // Small warm campfire
+        const flicker = stepFrame % 2 === 0 ? 0 : 1;
+        px(ctx, 78, 69, 4, 1, '#6e4726');
+        px(ctx, 79, 66 + flicker, 2, 3 - flicker, '#ff9b54');
+        px(ctx, 79, 67, 2, 2, '#ffc857');
+
+        drawMuggi(ctx, 66, 59, stepFrame);
+        drawGili(ctx, 88, 59, stepFrame);
+        drawTinyHeart(ctx, 78, 51 + heartBob);
+      } else if (sceneType === 'twin-dragons') {
+        drawMellowSky(ctx, t, true);
+        // Distant Andean mountain silhouettes & jungle pyramid
+        for (let i = 0; i < 24; i++) {
+          px(ctx, 14 + i, 68 - i, 48 - i * 2, 1, '#1e1638');
+        }
+        // Snow cap
+        for (let i = 0; i < 6; i++) {
+          px(ctx, 32 + i, 50 - i, 12 - i * 2, 1, '#cbb99e');
+        }
+        // Stepped temple silhouette on the right
+        px(ctx, 106, 60, 28, 8, '#1a2b2e');
+        px(ctx, 111, 54, 18, 6, '#21383b');
+        px(ctx, 116, 49, 8, 5, '#294549');
+        // Sea below
+        px(ctx, 0, 68, WIDTH, 22, '#0e1d36');
+
+        // Two dragons gliding smoothly in separate skies
+        const glideX = Math.sin(t * 0.9) * 4;
+        const glideY = Math.cos(t * 1.3) * 2;
+        const wingUp = stepFrame % 2 === 0;
+
+        drawDragon(ctx, 36 + glideX, 26 + glideY, '#3ca385', '#71e0c0', '#3b5878', wingUp);
+        drawDragon(ctx, 102 - glideX, 36 - glideY, '#c94f79', '#f2799b', '#d95b82', !wingUp);
+      } else if (sceneType === 'rekindled-flame') {
+        drawMellowSky(ctx, t, true);
+        // Ancient homeland stone arch in the center
+        px(ctx, 58, 30, 6, 38, '#362654');
+        px(ctx, 96, 30, 6, 38, '#362654');
+        px(ctx, 54, 25, 52, 5, '#48336e');
+        px(ctx, 56, 23, 48, 2, '#ffc857');
+        // Ground
+        px(ctx, 0, 68, WIDTH, 22, '#18102b');
+
+        // Resting dragons on the sides
+        drawDragon(ctx, 18, 62, '#3ca385', '#71e0c0', '#3ca385', false);
+        drawDragon(ctx, 128, 62, '#c94f79', '#f2799b', '#c94f79', false);
+
+        // Muggi & Gili close together under the arch
+        drawMuggi(ctx, 71, 58, stepFrame);
+        drawGili(ctx, 83, 58, stepFrame);
+        drawTinyHeart(ctx, 78, 46 + heartBob, '#ffc857');
+      } else if (sceneType === 'castle-north') {
+        drawMellowSky(ctx, t, false);
+        // Yarkon river & northern greenery
+        px(ctx, 0, 68, WIDTH, 22, '#142624');
+        px(ctx, 0, 75, WIDTH, 8, '#132b47');
+        drawCastle(ctx, 80, 68, 'north', t);
+        drawMuggi(ctx, 70, 61, stepFrame);
+        drawGili(ctx, 84, 61, stepFrame);
+        drawTinyHeart(ctx, 78, 52 + heartBob);
+      } else if (sceneType === 'castle-king-george') {
+        drawMellowSky(ctx, t, true);
+        px(ctx, 0, 68, WIDTH, 22, '#1a112e');
+        // Warm street lanterns along King George
+        [32, 126].forEach((lx) => {
+          px(ctx, lx, 54, 1, 14, '#4a356e');
+          px(ctx, lx - 1, 52, 3, 3, '#ffc857');
+        });
+        drawCastle(ctx, 80, 68, 'king-george', t);
+        drawMuggi(ctx, 70, 61, stepFrame);
+        drawGili(ctx, 84, 61, stepFrame);
+        drawTinyHeart(ctx, 78, 52 + heartBob);
+      } else if (sceneType === 'castle-masaryk') {
+        drawMellowSky(ctx, t, true);
+        px(ctx, 0, 68, WIDTH, 22, '#152922');
+        drawCastle(ctx, 80, 66, 'masaryk', t);
+        // Leafy Masaryk Square trees
+        [28, 130].forEach((tx) => {
+          px(ctx, tx, 58, 2, 10, '#4d311e');
+          px(ctx, tx - 5, 46, 12, 12, '#2d6349');
+          px(ctx, tx - 3, 44, 8, 2, '#3f8a5f');
+        });
+        // Iconic Masaryk Fountain in the foreground courtyard
+        px(ctx, 68, 73, 24, 4, '#4a396b');
+        px(ctx, 70, 72, 20, 2, '#3d73a8');
+        const spray = stepFrame % 2 === 0 ? 0 : 1;
+        px(ctx, 79, 67 + spray, 2, 5, '#8ec5ff');
+        px(ctx, 76, 69, 8, 1, '#71e0c0');
+
+        drawMuggi(ctx, 56, 62, stepFrame);
+        drawGili(ctx, 98, 62, stepFrame);
+        drawTinyHeart(ctx, 78, 56 + heartBob);
+      }
+    };
+
+    rafId = window.requestAnimationFrame(renderFrame);
+    return () => window.cancelAnimationFrame(rafId);
+  }, [sceneType]);
+
   return (
-    <svg
-      className={`love-scene__svg${isActionActive ? ' is-action-active' : ''}`}
-      viewBox="0 0 240 135"
+    <canvas
+      ref={canvasRef}
+      width={WIDTH}
+      height={HEIGHT}
+      className="love-scene__canvas"
       role="img"
-      aria-label="Animated pixel-art medieval scene of Muggi and Gili's love story"
-      shape-rendering="crispEdges"
-      onClick={onTriggerAction}
-    >
-      {/* Sky backdrop */}
-      <rect width="240" height="135" fill="#0b0618" />
-
-      {/* Twinkling background stars */}
-      <g fill="#fff2d2" opacity="0.75">
-        <rect x="18" y="12" width="2" height="2" />
-        <rect x="52" y="20" width="2" height="2" />
-        <rect x="94" y="10" width="2" height="2" />
-        <rect x="148" y="16" width="2" height="2" />
-        <rect x="192" y="11" width="2" height="2" />
-        <rect x="220" y="24" width="2" height="2" />
-      </g>
-
-      {/* ===================================================================
-          SCENE 1: TAVERN FEAST (Officer Muggi & Recruit Gili meet at a party)
-      =================================================================== */}
-      {sceneType === 'tavern-feast' && (
-        <g>
-          {/* Medieval castle stone hall interior */}
-          <rect x="10" y="14" width="220" height="96" fill="#1b1136" stroke="#4b2f78" stroke-width="2" />
-          {/* Stone brick pattern */}
-          <g fill="#24164a">
-            <rect x="18" y="20" width="24" height="8" />
-            <rect x="48" y="20" width="24" height="8" />
-            <rect x="168" y="20" width="24" height="8" />
-            <rect x="198" y="20" width="24" height="8" />
-          </g>
-          {/* Royal banners */}
-          <polygon points="34,16 50,16 50,48 42,42 34,48" fill="#b93d68" />
-          <rect x="40" y="22" width="4" height="12" fill="#ffc857" />
-          <polygon points="190,16 206,16 206,48 198,42 190,48" fill="#1e5c4e" />
-          <rect x="196" y="22" width="4" height="12" fill="#ffc857" />
-
-          {/* Arched medieval window at center */}
-          <rect x="104" y="22" width="32" height="34" fill="#091529" stroke="#ffc857" stroke-width="2" />
-          <rect x="116" y="28" width="8" height="8" fill="#ffc857" opacity="0.85" />
-
-          {/* Flickering wall torches */}
-          <g className="love-scene__torches">
-            <rect x="68" y="40" width="3" height="8" fill="#8b5a2b" />
-            <rect x="67" y="34" width="5" height="6" fill="#ff7196" />
-            <rect x="68" y="35" width="3" height="4" fill="#ffc857" />
-
-            <rect x="169" y="40" width="3" height="8" fill="#8b5a2b" />
-            <rect x="168" y="34" width="5" height="6" fill="#ff7196" />
-            <rect x="169" y="35" width="3" height="4" fill="#ffc857" />
-          </g>
-
-          {/* Banquet hall floor */}
-          <rect x="10" y="94" width="220" height="28" fill="#2c1b47" />
-
-          {/* Long wooden medieval feast table */}
-          <rect x="54" y="86" width="132" height="8" fill="#8b5a2b" />
-          <rect x="62" y="94" width="6" height="12" fill="#5c3a1a" />
-          <rect x="172" y="94" width="6" height="12" fill="#5c3a1a" />
-          {/* Golden goblets & feast platter */}
-          <rect x="92" y="81" width="4" height="5" fill="#ffc857" />
-          <rect x="144" y="81" width="4" height="5" fill="#ffc857" />
-          <rect x="114" y="82" width="12" height="4" fill="#f2799b" />
-
-          {/* Sir Muggi (LVL 20 Officer) & Lady Gili (LVL 19 Recruit) */}
-          <SirMuggiSprite x={isActionActive ? 98 : 76} y={68} raiseArm={isActionActive} />
-          <LadyGiliSprite x={isActionActive ? 132 : 154} y={68} raiseArm={isActionActive} />
-
-          {/* Role tags */}
-          <text x="58" y="62" className="love-scene__tag love-scene__tag--mint">
-            SIR MUGGI (20)
-          </text>
-          <text x="150" y="62" className="love-scene__tag love-scene__tag--rose">
-            LADY GILI (19)
-          </text>
-
-          {isActionActive && <CelebrationHearts x={116} y={50} />}
-        </g>
-      )}
-
-      {/* ===================================================================
-          SCENE 2: FIRST ALLIANCE (Years together in the Kingdom)
-      =================================================================== */}
-      {sceneType === 'first-alliance' && (
-        <g>
-          {/* Crescent moon */}
-          <rect x="190" y="16" width="14" height="14" fill="#ffc857" />
-          <rect x="195" y="16" width="9" height="10" fill="#0b0618" />
-
-          {/* Distant rolling hills & kingdom watchtowers */}
-          <polygon points="0,95 45,62 95,95" fill="#162822" />
-          <polygon points="75,95 135,56 195,95" fill="#1d352d" />
-          <polygon points="155,95 205,66 240,95" fill="#162822" />
-
-          {/* Watchtower silhouette */}
-          <rect x="40" y="48" width="12" height="22" fill="#24164a" stroke="#4b2f78" stroke-width="1" />
-          <rect x="44" y="53" width="4" height="5" fill="#ffc857" />
-
-          {/* Cobblestone kingdom road */}
-          <rect x="0" y="92" width="240" height="30" fill="#1d3128" />
-          <rect x="0" y="98" width="240" height="14" fill="#3b2d54" />
-          <path d="M4 105 H236" stroke="#ffc857" stroke-width="1.5" stroke-dasharray="5 5" />
-
-          {/* Warm campfire in the center */}
-          <rect x="114" y="93" width="12" height="3" fill="#8b5a2b" />
-          <rect x="116" y="86" width="8" height="7" fill="#ff7196" />
-          <rect x="118" y="88" width="4" height="5" fill="#ffc857" />
-
-          {/* Heroes side by side */}
-          <SirMuggiSprite x={isActionActive ? 100 : 90} y={80} raiseArm={isActionActive} />
-          <LadyGiliSprite x={isActionActive ? 130 : 140} y={80} raiseArm={isActionActive} />
-
-          {isActionActive && <CelebrationHearts x={116} y={56} />}
-        </g>
-      )}
-
-      {/* ===================================================================
-          SCENE 3: TWIN DRAGONS (Flying separately across South America)
-      =================================================================== */}
-      {sceneType === 'twin-dragons' && (
-        <g>
-          {/* Andean mountain peaks & stepped jungle pyramids of South America */}
-          <polygon points="0,115 38,54 78,115" fill="#1e2f4d" />
-          <polygon points="30,66 38,54 46,66" fill="#fff2d2" />
-          <polygon points="58,115 110,48 162,115" fill="#2a1d49" />
-          <polygon points="101,60 110,48 119,60" fill="#fff2d2" />
-
-          {/* Ancient stepped jungle temple on the right */}
-          <rect x="168" y="96" width="52" height="18" fill="#234736" />
-          <rect x="176" y="84" width="36" height="12" fill="#2e5c46" />
-          <rect x="184" y="72" width="20" height="12" fill="#3f8a5f" />
-          <rect x="191" y="66" width="6" height="6" fill="#ffc857" />
-
-          {/* Ocean & Southern Continent horizon */}
-          <rect x="0" y="110" width="240" height="16" fill="#102a4f" />
-
-          {/* Sir Muggi on the Emerald Wyvern (upper left sky) */}
-          <PixelDragonWithRider
-            x={isActionActive ? 54 : 38}
-            y={38}
-            bodyColor="#2eb88a"
-            wingColor="#71e0c0"
-            riderColor="#3a506b"
-            breatheFire={isActionActive}
-          />
-          <text x="24" y="20" className="love-scene__tag love-scene__tag--mint">
-            MUGGI&apos;S WYVERN · ANDES
-          </text>
-
-          {/* Lady Gili on the Crimson Dragon (lower right sky, flying to a different realm of South America) */}
-          <PixelDragonWithRider
-            x={isActionActive ? 148 : 162}
-            y={56}
-            bodyColor="#d94c7a"
-            wingColor="#f2799b"
-            riderColor="#b93d68"
-            breatheFire={isActionActive}
-          />
-          <text x="136" y="28" className="love-scene__tag love-scene__tag--rose">
-            GILI&apos;S DRAGON · SELVAS
-          </text>
-
-          {/* Golden destiny thread connecting both dragons when action is triggered */}
-          {isActionActive && (
-            <g>
-              <path
-                d="M78 40 Q118 28 152 54"
-                stroke="#ffc857"
-                stroke-width="1.5"
-                stroke-dasharray="3 3"
-                fill="none"
-              />
-              <CelebrationHearts x={114} y={18} />
-            </g>
-          )}
-        </g>
-      )}
-
-      {/* ===================================================================
-          SCENE 4: REKINDLED FLAME (Return to Israel & falling in love again)
-      =================================================================== */}
-      {sceneType === 'rekindled-flame' && (
-        <g>
-          {/* Ancient stone archway of the Homeland */}
-          <rect x="64" y="28" width="16" height="72" fill="#3b2d54" stroke="#ffc857" stroke-width="1.5" />
-          <rect x="160" y="28" width="16" height="72" fill="#3b2d54" stroke="#ffc857" stroke-width="1.5" />
-          <rect x="58" y="20" width="124" height="12" fill="#4b2f78" stroke="#ffc857" stroke-width="1.5" />
-
-          {/* Resting dragons perched on the outer columns */}
-          <PixelDragonWithRider
-            x={18}
-            y={74}
-            bodyColor="#2eb88a"
-            wingColor="#71e0c0"
-            riderColor="#2eb88a"
-          />
-          <PixelDragonWithRider
-            x={222}
-            y={74}
-            bodyColor="#d94c7a"
-            wingColor="#f2799b"
-            riderColor="#d94c7a"
-            flip
-          />
-
-          {/* Ground courtyard */}
-          <rect x="0" y="98" width="240" height="24" fill="#24164a" />
-
-          {/* Giant glowing pixel heart in the arch center */}
-          <g transform="translate(108 40) scale(3)">
-            <g fill={isActionActive ? '#ffc857' : '#f2799b'}>
-              <rect x="1" y="0" width="2" height="1" />
-              <rect x="5" y="0" width="2" height="1" />
-              <rect x="0" y="1" width="8" height="2" />
-              <rect x="1" y="3" width="6" height="1" />
-              <rect x="2" y="4" width="4" height="1" />
-              <rect x="3" y="5" width="2" height="1" />
-            </g>
-          </g>
-
-          {/* Muggi & Gili reuniting in the center */}
-          <SirMuggiSprite x={isActionActive ? 106 : 92} y={80} raiseArm={isActionActive} />
-          <LadyGiliSprite x={isActionActive ? 124 : 138} y={80} raiseArm={isActionActive} />
-
-          {isActionActive && <CelebrationHearts x={116} y={28} />}
-        </g>
-      )}
-
-      {/* ===================================================================
-          SCENE 5: CASTLE I — THE NORTHERN CITADEL (North Tel Aviv)
-      =================================================================== */}
-      {sceneType === 'castle-north' && (
-        <g>
-          {/* Sea & Yarkon River along the front */}
-          <rect x="0" y="98" width="240" height="24" fill="#102a4f" />
-          <rect x="0" y="92" width="240" height="8" fill="#1f4d3a" />
-
-          {/* White-stone Northern Citadel */}
-          <rect x="68" y="44" width="104" height="50" fill="#3a2c59" stroke="#71e0c0" stroke-width="2" />
-          {/* Left & right battlement towers */}
-          <rect x="56" y="30" width="24" height="64" fill="#4b3870" stroke="#71e0c0" stroke-width="1.5" />
-          <rect x="160" y="30" width="24" height="64" fill="#4b3870" stroke="#71e0c0" stroke-width="1.5" />
-          {/* Crenellations */}
-          <g fill="#71e0c0">
-            <rect x="56" y="26" width="5" height="4" />
-            <rect x="65" y="26" width="5" height="4" />
-            <rect x="75" y="26" width="5" height="4" />
-            <rect x="160" y="26" width="5" height="4" />
-            <rect x="169" y="26" width="5" height="4" />
-            <rect x="179" y="26" width="5" height="4" />
-          </g>
-
-          {/* Flagpole & hoisting royal M&G banner */}
-          <rect x="119" y="14" width="2" height="30" fill="#fff2d2" />
-          <rect
-            x="121"
-            y={isActionActive ? 15 : 26}
-            width="24"
-            height="10"
-            fill="#f2799b"
-          />
-          <text x="133" y={isActionActive ? 22 : 33} className="love-scene__banner-text" text-anchor="middle">
-            M&amp;G
-          </text>
-
-          {/* Castle gate & glowing windows */}
-          <rect x="108" y="68" width="24" height="26" fill="#1b1136" stroke="#ffc857" stroke-width="1.5" />
-          <rect x="82" y="54" width="10" height="12" fill="#ffc857" />
-          <rect x="148" y="54" width="10" height="12" fill="#ffc857" />
-
-          <SirMuggiSprite x={98} y={78} raiseArm={isActionActive} />
-          <LadyGiliSprite x={132} y={78} raiseArm={isActionActive} />
-
-          <text x="120" y="112" className="love-scene__tag love-scene__tag--mint" text-anchor="middle">
-            CASTLE I · NORTHERN TEL AVIV CITADEL
-          </text>
-
-          {isActionActive && <CelebrationHearts x={116} y={36} />}
-        </g>
-      )}
-
-      {/* ===================================================================
-          SCENE 6: CASTLE II — THE KEEP OF KING GEORGE (King George St.)
-      =================================================================== */}
-      {sceneType === 'castle-king-george' && (
-        <g>
-          {/* Bustling royal avenue ground */}
-          <rect x="0" y="96" width="240" height="26" fill="#25173d" />
-
-          {/* Flanking medieval market stalls on King George */}
-          <rect x="18" y="72" width="32" height="24" fill="#382257" stroke="#ffc857" stroke-width="1" />
-          <rect x="16" y="66" width="36" height="6" fill="#f2799b" />
-          <rect x="190" y="72" width="32" height="24" fill="#382257" stroke="#ffc857" stroke-width="1" />
-          <rect x="188" y="66" width="36" height="6" fill="#71e0c0" />
-
-          {/* Grand Central Keep of King George */}
-          <rect x="64" y="28" width="112" height="68" fill="#2f1d4f" stroke="#b89cff" stroke-width="2" />
-          {/* Royal Golden Crown emblem atop the Keep */}
-          <polygon points="102,28 106,16 114,23 120,14 126,23 134,16 138,28" fill="#ffc857" />
-
-          {/* Windows that light up brightly */}
-          <g fill={isActionActive ? '#ffc857' : '#8b6a35'}>
-            <rect x="76" y="38" width="10" height="12" />
-            <rect x="96" y="38" width="10" height="12" />
-            <rect x="134" y="38" width="10" height="12" />
-            <rect x="154" y="38" width="10" height="12" />
-            <rect x="76" y="58" width="10" height="12" />
-            <rect x="154" y="58" width="10" height="12" />
-          </g>
-
-          {/* Keep archway */}
-          <rect x="106" y="64" width="28" height="32" fill="#140b24" stroke="#ffc857" stroke-width="1.5" />
-
-          <SirMuggiSprite x={104} y={78} raiseArm={isActionActive} />
-          <LadyGiliSprite x={126} y={78} raiseArm={isActionActive} />
-
-          <text x="120" y="112" className="love-scene__tag love-scene__tag--gold" text-anchor="middle">
-            CASTLE II · THE KEEP OF KING GEORGE
-          </text>
-
-          {isActionActive && <CelebrationHearts x={116} y={32} />}
-        </g>
-      )}
-
-      {/* ===================================================================
-          SCENE 7: CASTLE III — STRONGHOLD OF MASARYK SQUARE
-      =================================================================== */}
-      {sceneType === 'castle-masaryk' && (
-        <g>
-          {/* Lush green Masaryk Square courtyard */}
-          <rect x="0" y="94" width="240" height="28" fill="#183328" />
-
-          {/* Sanctuary Castle of Masaryk Square in the background */}
-          <rect x="52" y="24" width="136" height="70" fill="#2d1a47" stroke="#f2799b" stroke-width="2" />
-          <rect x="44" y="18" width="24" height="76" fill="#3c235e" stroke="#f2799b" stroke-width="1.5" />
-          <rect x="172" y="18" width="24" height="76" fill="#3c235e" stroke="#f2799b" stroke-width="1.5" />
-          {/* Pointed fairy-tale roofs */}
-          <polygon points="42,18 56,4 70,18" fill="#f2799b" />
-          <polygon points="170,18 184,4 198,18" fill="#f2799b" />
-
-          {/* Warm windows */}
-          <g fill="#ffc857">
-            <rect x="80" y="34" width="12" height="14" />
-            <rect x="114" y="34" width="12" height="14" />
-            <rect x="148" y="34" width="12" height="14" />
-          </g>
-
-          {/* Iconic Masaryk Square Trees */}
-          <g fill="#3f8a5f">
-            <rect x="16" y="64" width="18" height="18" />
-            <rect x="23" y="82" width="4" height="12" fill="#5c3a1a" />
-            <rect x="206" y="64" width="18" height="18" />
-            <rect x="213" y="82" width="4" height="12" fill="#5c3a1a" />
-          </g>
-
-          {/* Iconic Enchanted Fountain of Masaryk Square */}
-          <rect x="96" y="86" width="48" height="10" fill="#564373" stroke="#fff2d2" stroke-width="1" />
-          <rect x="102" y="82" width="36" height="5" fill="#2d63a6" />
-          <rect x="117" y="72" width="6" height="12" fill="#8ec5ff" />
-          <rect x="111" y="75" width="18" height="3" fill="#71e0c0" />
-
-          {/* Heroes flanking the Masaryk Fountain */}
-          <SirMuggiSprite x={76} y={76} raiseArm={isActionActive} />
-          <LadyGiliSprite x={154} y={76} raiseArm={isActionActive} />
-
-          <text x="120" y="112" className="love-scene__tag love-scene__tag--rose" text-anchor="middle">
-            CASTLE III · MASARYK SQUARE -&gt; JAFFA 19.05.2027
-          </text>
-
-          {isActionActive && <CelebrationHearts x={116} y={24} />}
-        </g>
-      )}
-    </svg>
+      aria-label="Pixel-art storybook vignette of Muggi and Gili"
+    />
   );
 }

@@ -120,17 +120,8 @@ export interface LoveGameChapter {
   readonly chapterNumber: string;
   readonly eraLabel: string;
   readonly title: string;
-  readonly subtitle: string;
-  readonly locationRealm: string;
-  readonly realWorldParallel: string;
-  readonly accent: StageAccent;
+  readonly caption: string;
   readonly sceneType: LoveGameSceneType;
-  readonly narrative: string;
-  readonly muggiStatus: string;
-  readonly giliStatus: string;
-  readonly actionLabel: string;
-  readonly actionReactionText: string;
-  readonly lootUnlocked: string;
 }
 
 export interface SideQuestCheckpoint {
